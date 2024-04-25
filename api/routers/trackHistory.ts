@@ -8,11 +8,13 @@ const trackHistoryRouter = express.Router();
 
 trackHistoryRouter.post('/', async (req, res, next) => {
   try {
-    const token = req.get('Authorization');
-
-    if (!token) {
+    const headerValue = req.get('Authorization');
+    
+    if (!headerValue) {
       return res.status(400).send({ error: 'Token not provided' });
     }
+
+    const [_, token] = headerValue.split(' ');
 
     const user = await User.findOne({ token: token });
 
