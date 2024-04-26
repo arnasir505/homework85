@@ -14,7 +14,9 @@ albumsRouter.get('/', async (req, res, next) => {
       if (!mongoose.Types.ObjectId.isValid(artistId.toString())) {
         return res.status(422).send({ error: 'Invalid artist!' });
       }
-      const albums = await Album.find({ artist: artistId.toString() }).populate('artist', 'name').sort({year: 'desc'});
+      const albums = await Album.find({ artist: artistId.toString() })
+        .populate('artist', 'name')
+        .sort({ year: 'desc' });
       return res.send(albums);
     }
     const albums = await Album.find();

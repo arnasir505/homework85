@@ -23,7 +23,7 @@ const TrackSchema = new Schema(
     position: {
       type: Number,
       required: true,
-    }
+    },
   },
   {
     versionKey: false,

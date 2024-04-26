@@ -9,7 +9,7 @@ const trackHistoryRouter = express.Router();
 trackHistoryRouter.post('/', async (req, res, next) => {
   try {
     const headerValue = req.get('Authorization');
-    
+
     if (!headerValue) {
       return res.status(400).send({ error: 'Token not provided' });
     }
@@ -28,7 +28,7 @@ trackHistoryRouter.post('/', async (req, res, next) => {
       user: user.id,
       track: req.body.track,
       datetime: date.toISOString(),
-    }
+    };
 
     const trackHistory = new TrackHistory(trackHistoryData);
     await trackHistory.save();

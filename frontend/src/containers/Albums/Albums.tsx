@@ -14,7 +14,6 @@ import {
   Container,
   Breadcrumbs,
 } from '@mui/material';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import albumPlaceholder from '../../assets/images/album-placeholder.png';
 
 const Albums: React.FC = () => {
@@ -49,26 +48,28 @@ const Albums: React.FC = () => {
     content = (
       <>
         <Breadcrumbs
-          separator={<NavigateNextIcon fontSize='small' />}
           sx={{ mb: 1 }}
         >
           <Typography variant='h6'>{artist}</Typography>
         </Breadcrumbs>
         <Grid container spacing={2}>
           {albums.map((album) => (
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid item xs={12} sm={6} md={4} key={album._id}>
               <Link
                 to={`/tracks?album=${album._id}`}
                 style={{ textDecoration: 'none' }}
-                key={album._id}
               >
                 <Card sx={{ display: 'flex' }}>
-                    <CardMedia
-                      component={'img'}
-                      image={album.image ? (apiUrl + '/' + album.image) : albumPlaceholder}
-                      alt='img'
-                      sx={{ width: 120 }}
-                    />
+                  <CardMedia
+                    component={'img'}
+                    image={
+                      album.image
+                        ? apiUrl + '/' + album.image
+                        : albumPlaceholder
+                    }
+                    alt='img'
+                    sx={{ width: 120 }}
+                  />
                   <CardContent>
                     <Typography variant='h6'>{album.title}</Typography>
                     <Typography variant='body1' sx={{ color: '#bcbcbc' }}>

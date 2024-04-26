@@ -44,11 +44,10 @@ const Artists: React.FC = () => {
     content = (
       <Grid container spacing={2}>
         {artists.map((artist) => (
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={4} key={artist._id}>
             <Link
               to={`/albums?artist=${artist._id}`}
               style={{ textDecoration: 'none' }}
-              key={artist._id}
             >
               <Card sx={{ display: 'flex' }}>
                 <CardMedia

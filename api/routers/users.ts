@@ -36,13 +36,12 @@ usersRouter.post('/sessions', async (req, res, next) => {
         .send({ error: 'Username or password is not correct' });
     }
 
-    
     const isMatch = await user.checkPassword(req.body.password);
-    
+
     if (!isMatch) {
       return res
-      .status(400)
-      .send({ error: 'Username or password is not correct' });
+        .status(400)
+        .send({ error: 'Username or password is not correct' });
     }
 
     user.generateToken();
