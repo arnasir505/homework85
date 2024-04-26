@@ -1,31 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Album } from '../../types';
+import { useLocation } from 'react-router-dom';
+import { Track } from '../../types';
 import axiosApi from '../../axiosApi';
-import { apiUrl } from '../../constants';
 import {
   Box,
   CircularProgress,
   Grid,
   Card,
-  CardMedia,
   CardContent,
   Typography,
   Container,
 } from '@mui/material';
 
-const Albums: React.FC = () => {
+const Tracks: React.FC = () => {
   const location = useLocation();
-  const [albums, setAlbums] = useState<Album[]>([]);
+  const [tracks, setTracks] = useState<Track[]>([]);
   const [loading, setLoading] = useState(false);
   const [artist, setArtist] = useState('');
 
-  const fetchAlbums = async () => {
+  const fetchTracks = async () => {
     try {
       setLoading(true);
-      const response = await axiosApi.get<Album[]>(`/albums${location.search}`);
-      setAlbums(response.data);
-      setArtist(response.data[0].artist.name);
+      const response = await axiosApi.get<Track[]>(`/tracks${location.search}`);
+      setTracks(response.data);
+      // setArtist(response.data[0].artist.name);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -33,7 +31,7 @@ const Albums: React.FC = () => {
   };
 
   useEffect(() => {
-    void fetchAlbums();
+    void fetchTracks();
   }, []);
 
   let content = (
@@ -42,17 +40,14 @@ const Albums: React.FC = () => {
     </Box>
   );
 
-  if (albums.length > 0 && !loading) {
+  if (tracks.length > 0 && !loading) {
     content = (
       <>
-        <Typography variant='h5' sx={{mb: 1}}>{artist}</Typography>
+        <Typography variant='h5' sx={{ mb: 1 }}>
+          {artist}
+        </Typography>
         <Grid container>
-          {albums.map((album) => (
-            <Link
-              to={`/tracks?album=${album._id}`}
-              style={{ textDecoration: 'none' }}
-              key={album._id}
-            >
+          {tracks.map((track) => (
               <Card
                 sx={{
                   my: 1,
@@ -60,35 +55,27 @@ const Albums: React.FC = () => {
                   minWidth: '350px',
                   marginRight: '20px',
                 }}
+                key={track._id}
               >
-                {album.image ? (
-                  <CardMedia
-                    component={'img'}
-                    image={apiUrl + '/' + album.image}
-                    alt='img'
-                    sx={{ width: 120 }}
-                  />
-                ) : null}
                 <CardContent>
-                  <Typography variant='h6'>{album.title}</Typography>
+                  <Typography variant='h6'>{track.title}</Typography>
                   <Typography variant='body1' sx={{ color: '#bcbcbc' }}>
-                    {album.year}
+                    {track.duration}
                   </Typography>
                 </CardContent>
               </Card>
-            </Link>
           ))}
         </Grid>
       </>
     );
-  } else if (albums.length === 0 && !loading) {
+  } else if (tracks.length === 0 && !loading) {
     content = (
       <Typography variant='h5' textAlign={'center'} mt={3}>
-        No albums yet.
+        No tracks yet.
       </Typography>
     );
   }
   return <Container sx={{ py: 5 }}>{content}</Container>;
 };
 
-export default Albums;
+export default Tracks;

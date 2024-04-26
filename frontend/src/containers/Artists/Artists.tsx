@@ -43,7 +43,7 @@ const Artists: React.FC = () => {
     content = (
       <Grid container>
         {artists.map((artist) => (
-          <Link to={`/albums?artist=${artist._id}`} style={{textDecoration: 'none'}}> 
+          <Link to={`/albums?artist=${artist._id}`} style={{textDecoration: 'none'}} key={artist._id}> 
             <Card
               sx={{
                 my: 1,
