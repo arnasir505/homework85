@@ -36,13 +36,13 @@ const run = async () => {
       name: 'The Weeknd',
       information:
         'Canadian singer and songwriter. He is known for his unconventional music production, artistic reinventions, and signature use of the falsetto register. In 2009, Tesfaye expressed his interest in music when he began anonymously releasing music on YouTube',
-      image: 'fixtures/theWeeknd.jpg',
+      image: 'images/theWeeknd.jpg',
     },
     {
       name: 'Arctic Monkeys',
       information:
         'Arctic Monkeys are an English rock band formed in Sheffield on 14 August 2002.',
-      image: 'fixtures/arcticMonkeys.jpg',
+      image: 'images/arcticMonkeys.jpg',
     }
   );
 
@@ -52,25 +52,25 @@ const run = async () => {
         title: 'The Highlights',
         artist: theWeeknd._id,
         year: 2021,
-        image: 'fixtures/theHighlights.jpg',
+        image: 'images/theHighlights.jpg',
       },
       {
         title: 'After Hours',
         artist: theWeeknd._id,
         year: 2020,
-        image: 'fixtures/afterHours.jpg',
+        image: 'images/afterHours.jpg',
       },
       {
         title: 'AM',
         artist: arcticMonkeys._id,
         year: 2013,
-        image: 'fixtures/am.jpg',
+        image: 'images/am.jpg',
       },
       {
         title: 'Favourite Worst Nightmare',
         artist: arcticMonkeys._id,
         year: 2007,
-        image: 'fixtures/favouriteWorstNightmare.jpg',
+        image: 'images/favouriteWorstNightmare.jpg',
       }
     );
 
