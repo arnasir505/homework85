@@ -13,7 +13,7 @@ tracksRouter.get('/', async (req, res, next) => {
       if (!mongoose.Types.ObjectId.isValid(albumId.toString())) {
         return res.status(422).send({ error: 'Invalid album!' });
       }
-      const tracks = await Track.find({ album: albumId.toString() });
+      const tracks = await Track.find({ album: albumId.toString() }).sort({position: 'asc'});
       return res.send(tracks);
     }
     const tracks = await Track.find();

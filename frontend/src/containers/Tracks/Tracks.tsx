@@ -58,7 +58,7 @@ const Tracks: React.FC = () => {
                 key={track._id}
               >
                 <CardContent>
-                  <Typography variant='h6'>{track.title}</Typography>
+                  <Typography variant='h6'>{track.position}. {track.title}</Typography>
                   <Typography variant='body1' sx={{ color: '#bcbcbc' }}>
                     {track.duration}
                   </Typography>
