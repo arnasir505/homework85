@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Album, Track, TrackByAlbum } from '../../types';
+import { Track, TrackByAlbum } from '../../types';
 import axiosApi from '../../axiosApi';
 import {
   Box,
@@ -59,26 +59,20 @@ const Tracks: React.FC = () => {
           <Typography variant='h6'>{album.artist.name}</Typography>
           <Typography variant='h6'>{album.title}</Typography>
         </Breadcrumbs>
-        <Grid container>
+        <Grid container spacing={2}>
           {tracks.map((track) => (
-            <Card
-              sx={{
-                my: 1,
-                display: 'flex',
-                minWidth: '350px',
-                marginRight: '20px',
-              }}
-              key={track._id}
-            >
-              <CardContent>
-                <Typography variant='h6'>
-                  {track.position}. {track.title}
-                </Typography>
-                <Typography variant='body1' sx={{ color: '#bcbcbc' }}>
-                  {track.duration}
-                </Typography>
-              </CardContent>
-            </Card>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Card>
+                <CardContent>
+                  <Typography variant='h6'>
+                    {track.position}. {track.title}
+                  </Typography>
+                  <Typography variant='body1' sx={{ color: '#bcbcbc' }}>
+                    {track.duration}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
           ))}
         </Grid>
       </>

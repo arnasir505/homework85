@@ -41,30 +41,29 @@ const Artists: React.FC = () => {
 
   if (artists.length > 0 && !loading) {
     content = (
-      <Grid container>
+      <Grid container spacing={2}>
         {artists.map((artist) => (
-          <Link to={`/albums?artist=${artist._id}`} style={{textDecoration: 'none'}} key={artist._id}> 
-            <Card
-              sx={{
-                my: 1,
-                display: 'flex',
-                minWidth: '350px',
-                marginRight: '20px'
-              }}
+          <Grid item xs={12} sm={6} md={4}>
+            <Link
+              to={`/albums?artist=${artist._id}`}
+              style={{ textDecoration: 'none' }}
+              key={artist._id}
             >
-              {artist.image ? (
-                <CardMedia
-                  component={'img'}
-                  image={apiUrl + '/' + artist.image}
-                  alt='img'
-                  sx={{ width: 120 }}
-                />
-              ) : null}
-              <CardContent>
-                <Typography variant='h6'>{artist.name}</Typography>
-              </CardContent>
-            </Card>
-          </Link>
+              <Card sx={{display: 'flex'}}>
+                {artist.image ? (
+                  <CardMedia
+                    component={'img'}
+                    image={apiUrl + '/' + artist.image}
+                    alt='img'
+                    sx={{ width: 120 }}
+                  />
+                ) : null}
+                <CardContent>
+                  <Typography variant='h6'>{artist.name}</Typography>
+                </CardContent>
+              </Card>
+            </Link>
+          </Grid>
         ))}
       </Grid>
     );
@@ -75,7 +74,7 @@ const Artists: React.FC = () => {
       </Typography>
     );
   }
-  return <Container sx={{ py: 5 }}>{content}</Container>;
+  return <Container sx={{ py: 10 }}>{content}</Container>;
 };
 
 export default Artists;
