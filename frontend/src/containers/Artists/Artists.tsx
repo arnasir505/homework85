@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { apiUrl } from '../../constants';
+import personPlaceholder from '../../assets/images/person-placeholder.jpg';
 
 const Artists: React.FC = () => {
   const [artists, setArtists] = useState<Artist[]>([]);
@@ -49,15 +50,17 @@ const Artists: React.FC = () => {
               style={{ textDecoration: 'none' }}
               key={artist._id}
             >
-              <Card sx={{display: 'flex'}}>
-                {artist.image ? (
-                  <CardMedia
-                    component={'img'}
-                    image={apiUrl + '/' + artist.image}
-                    alt='img'
-                    sx={{ width: 120 }}
-                  />
-                ) : null}
+              <Card sx={{ display: 'flex' }}>
+                <CardMedia
+                  component={'img'}
+                  image={
+                    artist.image
+                      ? apiUrl + '/' + artist.image
+                      : personPlaceholder
+                  }
+                  alt='img'
+                  sx={{ width: 120 }}
+                />
                 <CardContent>
                   <Typography variant='h6'>{artist.name}</Typography>
                 </CardContent>

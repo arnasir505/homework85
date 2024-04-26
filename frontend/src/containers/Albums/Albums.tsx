@@ -15,6 +15,7 @@ import {
   Breadcrumbs,
 } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import albumPlaceholder from '../../assets/images/album-placeholder.png';
 
 const Albums: React.FC = () => {
   const location = useLocation();
@@ -62,14 +63,12 @@ const Albums: React.FC = () => {
                 key={album._id}
               >
                 <Card sx={{ display: 'flex' }}>
-                  {album.image ? (
                     <CardMedia
                       component={'img'}
-                      image={apiUrl + '/' + album.image}
+                      image={album.image ? (apiUrl + '/' + album.image) : albumPlaceholder}
                       alt='img'
                       sx={{ width: 120 }}
                     />
-                  ) : null}
                   <CardContent>
                     <Typography variant='h6'>{album.title}</Typography>
                     <Typography variant='body1' sx={{ color: '#bcbcbc' }}>
