@@ -1,28 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { Album } from '../../types';
 import axiosApi from '../../axiosApi';
-import { Artist } from '../../types';
-import {
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
-  CircularProgress,
-  Container,
-  Grid,
-  Typography,
-} from '@mui/material';
-import { Link } from 'react-router-dom';
 import { apiUrl } from '../../constants';
+import { Box, CircularProgress, Grid, Card, CardMedia, CardContent, Typography, Container } from '@mui/material';
 
-const Artists: React.FC = () => {
-  const [artists, setArtists] = useState<Artist[]>([]);
+const Albums: React.FC = () => {
+  const location = useLocation();
+  const [albums, setAlbums] = useState<Album[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchArtists = async () => {
+  const fetchAlbums = async () => {
     try {
       setLoading(true);
-      const response = await axiosApi.get<Artist[]>('/artists');
-      setArtists(response.data);
+      const response = await axiosApi.get<Album[]>(`/albums${location.search}`);
+      setAlbums(response.data);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -30,7 +22,7 @@ const Artists: React.FC = () => {
   };
 
   useEffect(() => {
-    void fetchArtists();
+    void fetchAlbums();
   }, []);
 
   let content = (
@@ -39,43 +31,47 @@ const Artists: React.FC = () => {
     </Box>
   );
 
-  if (artists.length > 0 && !loading) {
+  if (albums.length > 0 && !loading) {
     content = (
       <Grid container>
-        {artists.map((artist) => (
-          <Link to={`/albums?artist=${artist._id}`} style={{textDecoration: 'none'}}> 
+        {albums.map((album) => (
+          <Link
+            to={`/tracks?albums=${album._id}`}
+            style={{ textDecoration: 'none' }}
+          >
             <Card
               sx={{
                 my: 1,
                 display: 'flex',
                 minWidth: '350px',
-                marginRight: '20px'
+                marginRight: '20px',
               }}
             >
-              {artist.image ? (
+              {album.image ? (
                 <CardMedia
                   component={'img'}
-                  image={apiUrl + '/' + artist.image}
+                  image={apiUrl + '/' + album.image}
                   alt='img'
                   sx={{ width: 120 }}
                 />
               ) : null}
               <CardContent>
-                <Typography variant='h6'>{artist.name}</Typography>
+                <Typography variant='h6'>{album.title}</Typography>
+                <Typography variant='body1'>{album.year}</Typography>
               </CardContent>
             </Card>
           </Link>
         ))}
       </Grid>
     );
-  } else if (artists.length === 0 && !loading) {
+  } else if (albums.length === 0 && !loading) {
     content = (
       <Typography variant='h5' textAlign={'center'} mt={3}>
-        No artists yet.
+        No albums yet.
       </Typography>
     );
   }
   return <Container sx={{ py: 5 }}>{content}</Container>;
-};
+}
 
-export default Artists;
+export default Albums
