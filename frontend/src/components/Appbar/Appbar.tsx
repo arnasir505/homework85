@@ -9,7 +9,7 @@ const Appbar: React.FC = () => {
         <Container>
           <Toolbar>
             <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-              <Link to='/' style={{ color: '#26a69a', textDecoration: 'none' }}>
+              <Link to='/' style={{ color: '#64ffda', textDecoration: 'none' }}>
                 Spotify
               </Link>
             </Typography>

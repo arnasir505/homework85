@@ -12,7 +12,9 @@ import {
   CardContent,
   Typography,
   Container,
+  Breadcrumbs,
 } from '@mui/material';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 const Albums: React.FC = () => {
   const location = useLocation();
@@ -45,7 +47,12 @@ const Albums: React.FC = () => {
   if (albums.length > 0 && !loading) {
     content = (
       <>
-        <Typography variant='h5' sx={{mb: 1}}>{artist}</Typography>
+        <Breadcrumbs
+          separator={<NavigateNextIcon fontSize='small' />}
+          sx={{ mb: 1 }}
+        >
+          <Typography variant='h6'>{artist}</Typography>
+        </Breadcrumbs>
         <Grid container>
           {albums.map((album) => (
             <Link

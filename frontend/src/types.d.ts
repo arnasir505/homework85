@@ -23,3 +23,8 @@ export interface Track {
   duration: string;
   position: number;
 }
+
+export interface TrackByAlbum {
+  album: Album;
+  tracks: Track[];
+}

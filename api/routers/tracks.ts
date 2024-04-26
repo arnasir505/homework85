@@ -2,6 +2,7 @@ import express from 'express';
 import Track from '../models/Track';
 import mongoose from 'mongoose';
 import { TrackMutation } from '../types';
+import Album from '../models/Album';
 
 const tracksRouter = express.Router();
 
@@ -14,7 +15,8 @@ tracksRouter.get('/', async (req, res, next) => {
         return res.status(422).send({ error: 'Invalid album!' });
       }
       const tracks = await Track.find({ album: albumId.toString() }).sort({position: 'asc'});
-      return res.send(tracks);
+      const album = await Album.findById(albumId).populate('artist', 'name');
+      return res.send({album, tracks});
     }
     const tracks = await Track.find();
     return res.send(tracks);
