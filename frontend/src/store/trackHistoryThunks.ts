@@ -41,6 +41,6 @@ export const fetchTrackHistory = createAsyncThunk<
     return response.data;
   } catch (error) {
     console.log(error);
-    throw error
+    return [];
   }
 });

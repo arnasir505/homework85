@@ -72,7 +72,7 @@ const Tracks: React.FC = () => {
         </Breadcrumbs>
         <Grid container spacing={2}>
           {tracks.map((track) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={track._id}>
+            <Grid item xs={12} sm={6} md={4}  key={track._id}>
               <Card>
                 <CardContent sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                   <Box>

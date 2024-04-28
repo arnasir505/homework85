@@ -46,7 +46,7 @@ const TrackHistory = () => {
     content = (
       <>
         {tracks.map((track) => (
-          <Card sx={{ my: 2 }}>
+          <Card sx={{ my: 2 }} key={track._id}>
             <CardContent>
               <Typography variant='body1' color='gray'>
                 {track.artist.name}
