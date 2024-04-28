@@ -6,6 +6,7 @@ import Tracks from './containers/Tracks/Tracks';
 import { Typography } from '@mui/material';
 import Register from './containers/Register/Register';
 import Login from './containers/Login/Login';
+import TrackHistory from './containers/TrackHistory/TrackHistory';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path='/tracks' element={<Tracks />} />
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/track-history' element={<TrackHistory />} />
           <Route
             path='*'
             element={

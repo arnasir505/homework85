@@ -1,6 +1,7 @@
 import { Button, Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 import { User } from '../../types';
+import { Link } from 'react-router-dom';
 
 interface Props {
   user: User;
@@ -15,17 +16,27 @@ const UserMenu: React.FC<Props> = ({ user }) => {
 
   const handleClose = () => {
     setAncorEl(null);
-  }
+  };
 
   return (
     <>
       <Button color='inherit' onClick={handleClick}>
         Hello {user.username}!
       </Button>
-      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose} keepMounted>
-        <MenuItem>Profile Item</MenuItem>
-        <MenuItem>My account</MenuItem>
-        <MenuItem>Log out</MenuItem>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        keepMounted
+      >
+        <MenuItem>
+          <Link
+            to='/track-history'
+            style={{ color: 'inherit', textDecoration: 'none' }}
+          >
+            Track History
+          </Link>
+        </MenuItem>
       </Menu>
     </>
   );

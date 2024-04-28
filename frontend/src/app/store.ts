@@ -11,6 +11,7 @@ import {
 } from 'redux-persist';
 import { usersReducer } from '../store/usersSlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { trackHistoryReducer } from '../store/trackHistorySlice';
 
 const userPersistConfig = {
   key: 'spotify:users',
@@ -20,6 +21,7 @@ const userPersistConfig = {
 
 const rootReducer = combineReducers({
   users: persistReducer(userPersistConfig, usersReducer),
+  trackHistory: trackHistoryReducer,
 });
 
 export const store = configureStore({

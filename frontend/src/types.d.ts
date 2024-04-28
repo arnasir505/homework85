@@ -65,3 +65,16 @@ export interface ValidationError {
 export interface GlobalError {
   error: string;
 }
+
+export interface HistoryTrack {
+  _id: string;
+  track: {
+    _id: string;
+    title: string;
+  },
+  artist: {
+    _id: string;
+    name: string;
+  },
+  datetime: string;
+}

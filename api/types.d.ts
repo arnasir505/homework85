@@ -26,5 +26,6 @@ export interface UserFields {
 export interface TrackHistoryMutation {
   user: string;
   track: string;
+  artist: string;
   datetime: string;
 }
