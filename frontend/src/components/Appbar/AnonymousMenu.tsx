@@ -7,7 +7,7 @@ const AnonymousMenu = () => {
       <Button component={NavLink} to='/register' color='inherit'>
         Sign Up
       </Button>
-      <Button component={NavLink} to='/login' color='inherit'>
+      <Button component={NavLink} to='/login' color='inherit' sx={{ml: 2}}>
         Sign In
       </Button>
     </>

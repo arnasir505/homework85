@@ -9,6 +9,7 @@ import {
   persistReducer,
   persistStore,
 } from 'redux-persist';
+import { usersReducer } from '../store/usersSlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 const userPersistConfig = {
@@ -18,9 +19,7 @@ const userPersistConfig = {
 };
 
 const rootReducer = combineReducers({
-  // products: productsReducer,
-  // categories: categoriesReducer,
-  // users: persistReducer(userPersistConfig, usersReducer),
+  users: persistReducer(userPersistConfig, usersReducer),
 });
 
 export const store = configureStore({

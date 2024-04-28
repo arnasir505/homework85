@@ -3,20 +3,33 @@ import Appbar from './components/Appbar/Appbar';
 import Artists from './containers/Artists/Artists';
 import Albums from './containers/Albums/Albums';
 import Tracks from './containers/Tracks/Tracks';
+import { Typography } from '@mui/material';
+import Register from './containers/Register/Register';
+import Login from './containers/Login/Login';
 
 const App = () => {
   return (
     <>
-      <Appbar />
-      <Routes>
-        <Route path='/' element={<Artists />} />
-        <Route path='/albums' element={<Albums />} />
-        <Route path='/tracks' element={<Tracks />} />
-        <Route
-          path='*'
-          element={<h1 style={{ textAlign: 'center' }}>Not Found</h1>}
-        />
-      </Routes>
+      <header>
+        <Appbar />
+      </header>
+      <main>
+        <Routes>
+          <Route path='/' element={<Artists />} />
+          <Route path='/albums' element={<Albums />} />
+          <Route path='/tracks' element={<Tracks />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/login' element={<Login />} />
+          <Route
+            path='*'
+            element={
+              <Typography variant='h2' style={{ textAlign: 'center' }}>
+                Not Found
+              </Typography>
+            }
+          />
+        </Routes>
+      </main>
     </>
   );
 };
