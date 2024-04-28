@@ -3,29 +3,17 @@ import User from '../models/User';
 import { TrackHistoryMutation } from '../types';
 import TrackHistory from '../models/TrackHistory';
 import mongoose from 'mongoose';
+import auth, { RequestWithUser } from '../middleware/auth';
 
 const trackHistoryRouter = express.Router();
 
-trackHistoryRouter.post('/', async (req, res, next) => {
+trackHistoryRouter.post('/', auth, async (req: RequestWithUser, res, next) => {
   try {
-    const headerValue = req.get('Authorization');
-
-    if (!headerValue) {
-      return res.status(400).send({ error: 'Token not provided' });
-    }
-
-    const [_, token] = headerValue.split(' ');
-
-    const user = await User.findOne({ token: token });
-
-    if (!user) {
-      return res.status(401).send({ error: 'Invalid token' });
-    }
-
+    
     const date = new Date();
 
     const trackHistoryData: TrackHistoryMutation = {
-      user: user.id,
+      user: req.user?.id,
       track: req.body.track,
       datetime: date.toISOString(),
     };

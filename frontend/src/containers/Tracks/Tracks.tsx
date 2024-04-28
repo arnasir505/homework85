@@ -11,10 +11,17 @@ import {
   Typography,
   Container,
   Breadcrumbs,
+  Button,
 } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { selectUser } from '../../store/usersSlice';
+import { PlayArrow } from '@mui/icons-material';
+import { addTrackToHistory } from '../../store/trackHistoryThunks';
 
 const Tracks: React.FC = () => {
+  const user = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const [tracks, setTracks] = useState<Track[]>([]);
   const [loading, setLoading] = useState(false);
@@ -43,6 +50,10 @@ const Tracks: React.FC = () => {
     void fetchTracks();
   }, []);
 
+  const onPlayClick = async (trackId: string) => {
+    await dispatch(addTrackToHistory(trackId));
+  }
+
   let content = (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <CircularProgress size={'3rem'} sx={{ mt: 2 }} />
@@ -63,13 +74,25 @@ const Tracks: React.FC = () => {
           {tracks.map((track) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={track._id}>
               <Card>
-                <CardContent>
-                  <Typography variant='h6'>
-                    {track.position}. {track.title}
-                  </Typography>
-                  <Typography variant='body1' sx={{ color: '#bcbcbc' }}>
-                    {track.duration}
-                  </Typography>
+                <CardContent sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                  <Box>
+                    <Typography variant='h6'>
+                      {track.position}. {track.title}
+                    </Typography>
+                    <Typography variant='body1' sx={{ color: '#bcbcbc' }}>
+                      {track.duration}
+                    </Typography>
+                  </Box>
+                  {user && (
+                    <Button
+                      variant='outlined'
+                      endIcon={<PlayArrow />}
+                      size='small'
+                      onClick={() => onPlayClick(track._id)}
+                    >
+                      Play
+                    </Button>
+                  )}
                 </CardContent>
               </Card>
             </Grid>
