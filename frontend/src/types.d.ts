@@ -47,7 +47,7 @@ export interface User {
 
 export interface RegisterResponse {
   user: User;
-  massage: string;
+  message: string;
 }
 
 export interface ValidationError {
