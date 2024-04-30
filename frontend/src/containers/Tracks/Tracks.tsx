@@ -25,6 +25,7 @@ const Tracks: React.FC = () => {
   const location = useLocation();
   const [tracks, setTracks] = useState<Track[]>([]);
   const [loading, setLoading] = useState(false);
+  const [disabledBtn, setDisabledBtn] = useState('');
   const [album, setAlbum] = useState({
     title: '',
     artist: {
@@ -51,8 +52,10 @@ const Tracks: React.FC = () => {
   }, []);
 
   const onPlayClick = async (trackId: string) => {
+    setDisabledBtn(trackId);
     await dispatch(addTrackToHistory(trackId));
-  }
+    setDisabledBtn('');
+  };
 
   let content = (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -72,9 +75,15 @@ const Tracks: React.FC = () => {
         </Breadcrumbs>
         <Grid container spacing={2}>
           {tracks.map((track) => (
-            <Grid item xs={12} sm={6} md={4}  key={track._id}>
+            <Grid item xs={12} sm={6} md={4} key={track._id}>
               <Card>
-                <CardContent sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                <CardContent
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
+                >
                   <Box>
                     <Typography variant='h6'>
                       {track.position}. {track.title}
@@ -89,6 +98,7 @@ const Tracks: React.FC = () => {
                       endIcon={<PlayArrow />}
                       size='small'
                       onClick={() => onPlayClick(track._id)}
+                      disabled={track._id === disabledBtn}
                     >
                       Play
                     </Button>
