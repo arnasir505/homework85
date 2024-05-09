@@ -1,8 +1,8 @@
 export interface Artist {
   _id: string;
   name: string;
-  information: string;
-  image: string;
+  information: string | null;
+  image: string | null;
   isPublished: boolean;
 }
 
@@ -14,7 +14,7 @@ export interface Album {
     name: string;
   };
   year: number;
-  image: string;
+  image: string | null;
   isPublished: boolean;
 }
 

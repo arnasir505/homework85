@@ -10,7 +10,7 @@ interface Props {
   name: string;
   label: string;
   selectFilename: (state: RootState) => string;
-  selectError: (state: RootState) => ValidationError;
+  selectError: (state: RootState) => ValidationError | null;
   updateFilename: (filename: string) => UnknownAction;
   clearImage: () => UnknownAction;
 }
@@ -68,7 +68,6 @@ const FileInput: React.FC<Props> = ({
       <Grid container direction='row' spacing={2} alignItems='center'>
         <Grid item xs>
           <TextField
-            required
             fullWidth
             inputProps={{ readOnly: true }}
             label={label}

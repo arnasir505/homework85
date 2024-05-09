@@ -31,7 +31,7 @@ artistsRouter.post(
       }
 
       if (error instanceof mongo.MongoServerError && error.code === 11000) {
-        return res.status(422).send({ error: 'Artist name should be unique!' });
+        return res.status(422).send({ error: 'This artist already exists.' });
       }
 
       next(error);

@@ -56,7 +56,7 @@ const Artists: React.FC = () => {
                       : personPlaceholder
                   }
                   alt='img'
-                  sx={{ width: 120 }}
+                  sx={{ width: 120, height: 120 }}
                 />
                 <CardContent>
                   <Typography variant='h6'>{artist.name}</Typography>

@@ -26,6 +26,7 @@ const Albums: React.FC = () => {
   const albums = useAppSelector(selectAlbums);
   const loading = useAppSelector(selectAlbumsLoading);
   const artistName = useAppSelector(selectAlbumsArtistName);
+  
   const getAlbums = async () => {
     await dispatch(fetchAlbums());
   };
