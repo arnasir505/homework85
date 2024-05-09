@@ -4,13 +4,16 @@ import mongoose from 'mongoose';
 import { TrackMutation } from '../types';
 import Album from '../models/Album';
 import auth from '../middleware/auth';
+import permit from '../middleware/permit';
 
 const tracksRouter = express.Router();
 
 tracksRouter.post('/', auth, async (req, res, next) => {
   try {
     let position = 1;
-    const tracks = await Track.find({album: req.body.album}).sort({position: 'desc'});
+    const tracks = await Track.find({ album: req.body.album }).sort({
+      position: 'desc',
+    });
 
     if (tracks.length > 0) {
       position = tracks[0].position + 1;
@@ -51,6 +54,19 @@ tracksRouter.get('/', async (req, res, next) => {
     }
     const tracks = await Track.find();
     return res.send(tracks);
+  } catch (error) {
+    next(error);
+  }
+});
+
+tracksRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const track = await Track.findByIdAndDelete(id);
+    if (!track) {
+      return res.status(404).send({ error: 'Not Found' });
+    }
+    return res.send({ message: 'Deleted' });
   } catch (error) {
     next(error);
   }

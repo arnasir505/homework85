@@ -12,9 +12,9 @@ const trackHistoryRouter = express.Router();
 trackHistoryRouter.post('/', auth, async (req: RequestWithUser, res, next) => {
   try {
     const date = new Date();
-    const track = await Track.findOne({_id: req.body.track});
-    const album = await Album.findOne({_id: track?.album});
-    const artist = await Artist.findOne({_id: album?.artist});
+    const track = await Track.findOne({ _id: req.body.track });
+    const album = await Album.findOne({ _id: track?.album });
+    const artist = await Artist.findOne({ _id: album?.artist });
 
     const trackHistoryData: TrackHistoryMutation = {
       user: req.user?.id,
@@ -37,12 +37,14 @@ trackHistoryRouter.post('/', auth, async (req: RequestWithUser, res, next) => {
 
 trackHistoryRouter.get('/', auth, async (req: RequestWithUser, res, next) => {
   try {
-    const tracks = await TrackHistory.find({user: req.user?._id}, {user: 0}).populate('track artist', 'title name').sort({datetime: 'desc'});
+    const tracks = await TrackHistory.find({ user: req.user?._id }, { user: 0 })
+      .populate('track artist', 'title name')
+      .sort({ datetime: 'desc' });
 
     return res.send(tracks);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 export default trackHistoryRouter;

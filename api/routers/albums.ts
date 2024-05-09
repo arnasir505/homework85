@@ -4,29 +4,35 @@ import { imagesUpload } from '../multer';
 import { AlbumMutation } from '../types';
 import mongoose from 'mongoose';
 import auth from '../middleware/auth';
+import permit from '../middleware/permit';
 
 const albumsRouter = express.Router();
 
-albumsRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next) => {
-  try {
-    const albumData: AlbumMutation = {
-      title: req.body.title,
-      artist: req.body.artist,
-      year: req.body.year,
-      image: req.file ? req.file.filename : null,
-    };
+albumsRouter.post(
+  '/',
+  auth,
+  imagesUpload.single('image'),
+  async (req, res, next) => {
+    try {
+      const albumData: AlbumMutation = {
+        title: req.body.title,
+        artist: req.body.artist,
+        year: req.body.year,
+        image: req.file ? req.file.filename : null,
+      };
 
-    const album = new Album(albumData);
-    await album.save();
-    
-    return res.send(album);
-  } catch (error) {
-    if (error instanceof mongoose.Error.ValidationError) {
-      return res.status(422).send(error);
+      const album = new Album(albumData);
+      await album.save();
+
+      return res.send(album);
+    } catch (error) {
+      if (error instanceof mongoose.Error.ValidationError) {
+        return res.status(422).send(error);
+      }
+      next(error);
     }
-    next(error);
   }
-});
+);
 
 albumsRouter.get('/', async (req, res, next) => {
   try {
@@ -62,5 +68,17 @@ albumsRouter.get('/:id', async (req, res, next) => {
   }
 });
 
+albumsRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const album = await Album.findByIdAndDelete(id);
+    if (!album) {
+      return res.status(404).send({ error: 'Not Found' });
+    }
+    return res.send({ message: 'Deleted' });
+  } catch (error) {
+    next(error);
+  }
+});
 
 export default albumsRouter;
