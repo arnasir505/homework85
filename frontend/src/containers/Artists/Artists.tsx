@@ -1,4 +1,13 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { apiUrl } from '../../constants';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import {
+  selectArtists,
+  selectArtistsLoading,
+} from '../../store/artists/artistsSlice';
+import { fetchArtists } from '../../store/artists/artistsThunks';
+import personPlaceholder from '../../assets/images/person-placeholder.jpg';
 import {
   Box,
   Card,
@@ -9,21 +18,12 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { apiUrl } from '../../constants';
-import personPlaceholder from '../../assets/images/person-placeholder.jpg';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import {
-  selectArtists,
-  selectArtistsLoading,
-} from '../../store/artists/artistsSlice';
-import { fetchArtists } from '../../store/artists/artistsThunks';
 
 const Artists: React.FC = () => {
   const dispatch = useAppDispatch();
   const artists = useAppSelector(selectArtists);
   const loading = useAppSelector(selectArtistsLoading);
-  
+
   const getArtists = async () => {
     await dispatch(fetchArtists());
   };

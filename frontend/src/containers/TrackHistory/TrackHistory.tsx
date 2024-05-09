@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { fetchTrackHistory } from '../../store/trackHistoryThunks';
 import { selectUser } from '../../store/users/usersSlice';
 import { useNavigate } from 'react-router-dom';
 import {
   selectTrackHistory,
   selectTrackHistoryLoading,
-} from '../../store/trackHistorySlice';
+} from '../../store/trackHistory/trackHistorySlice';
+import { fetchTrackHistory } from '../../store/trackHistory/trackHistoryThunks';
 import {
   Box,
   Card,
@@ -26,7 +26,7 @@ const TrackHistory = () => {
 
   const getTrackHistory = async () => {
     if (user) {
-      await dispatch(fetchTrackHistory(user.token));
+      await dispatch(fetchTrackHistory());
     } else {
       navigate('/login');
     }

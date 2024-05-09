@@ -43,4 +43,5 @@ export const albumsReducer = albumsSlice.reducer;
 
 export const selectAlbums = (state: RootState) => state.albums.albums;
 export const selectAlbumsLoading = (state: RootState) => state.albums.loading;
-export const selectAlbumsArtistName = (state: RootState) => state.albums.artistName;
+export const selectAlbumsArtistName = (state: RootState) =>
+  state.albums.artistName;

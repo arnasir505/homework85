@@ -1,10 +1,14 @@
 import { useState } from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   selectRegisterError,
   selectRegisterLoading,
 } from '../../store/users/usersSlice';
+import { register } from '../../store/users/usersThunk';
 import { RegisterMutation } from '../../types';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { LoadingButton } from '@mui/lab';
 import {
   Avatar,
   Box,
@@ -14,10 +18,6 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { register } from '../../store/users/usersThunk';
-import { LoadingButton } from '@mui/lab';
 
 const Register = () => {
   const dispatch = useAppDispatch();

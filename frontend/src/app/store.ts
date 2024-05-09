@@ -9,9 +9,9 @@ import {
   persistReducer,
   persistStore,
 } from 'redux-persist';
-import { usersReducer } from '../store/users/usersSlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { trackHistoryReducer } from '../store/trackHistorySlice';
+import { usersReducer } from '../store/users/usersSlice';
+import { trackHistoryReducer } from '../store/trackHistory/trackHistorySlice';
 import { artistsReducer } from '../store/artists/artistsSlice';
 import { albumsReducer } from '../store/albums/albumsSlice';
 import { tracksReducer } from '../store/tracks/tracksSlice';
@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
   trackHistory: trackHistoryReducer,
   artists: artistsReducer,
   albums: albumsReducer,
-  tracks: tracksReducer
+  tracks: tracksReducer,
 });
 
 export const store = configureStore({

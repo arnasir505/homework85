@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { HistoryTrack } from '../types';
+import { HistoryTrack } from '../../types';
 import { fetchTrackHistory } from './trackHistoryThunks';
-import { RootState } from '../app/store';
+import { RootState } from '../../app/store';
 
 interface TrackHistoryState {
   tracks: HistoryTrack[];

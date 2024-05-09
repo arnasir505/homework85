@@ -3,10 +3,10 @@ import Appbar from './components/Appbar/Appbar';
 import Artists from './containers/Artists/Artists';
 import Albums from './containers/Albums/Albums';
 import Tracks from './containers/Tracks/Tracks';
-import { Typography } from '@mui/material';
 import Register from './containers/Register/Register';
 import Login from './containers/Login/Login';
 import TrackHistory from './containers/TrackHistory/TrackHistory';
+import { Typography } from '@mui/material';
 
 const App = () => {
   return (

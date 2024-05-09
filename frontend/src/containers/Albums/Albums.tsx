@@ -1,6 +1,14 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { apiUrl } from '../../constants';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import {
+  selectAlbums,
+  selectAlbumsArtistName,
+  selectAlbumsLoading,
+} from '../../store/albums/albumsSlice';
+import { fetchAlbums } from '../../store/albums/albumsThunks';
+import albumPlaceholder from '../../assets/images/album-placeholder.png';
 import {
   Box,
   CircularProgress,
@@ -12,14 +20,6 @@ import {
   Container,
   Breadcrumbs,
 } from '@mui/material';
-import albumPlaceholder from '../../assets/images/album-placeholder.png';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { fetchAlbums } from '../../store/albums/albumsThunks';
-import {
-  selectAlbums,
-  selectAlbumsArtistName,
-  selectAlbumsLoading,
-} from '../../store/albums/albumsSlice';
 
 const Albums: React.FC = () => {
   const dispatch = useAppDispatch();

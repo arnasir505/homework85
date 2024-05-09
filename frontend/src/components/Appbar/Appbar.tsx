@@ -1,5 +1,9 @@
 import React from 'react';
 import { Link as NavLink } from 'react-router-dom';
+import { useAppSelector } from '../../app/hooks';
+import { selectUser } from '../../store/users/usersSlice';
+import UserMenu from './UserMenu';
+import AnonymousMenu from './AnonymousMenu';
 import {
   Box,
   AppBar,
@@ -9,10 +13,6 @@ import {
   styled,
   Grid,
 } from '@mui/material';
-import { useAppSelector } from '../../app/hooks';
-import { selectUser } from '../../store/users/usersSlice';
-import UserMenu from './UserMenu';
-import AnonymousMenu from './AnonymousMenu';
 
 const LogoLink = styled(NavLink)({
   color: '#64ffda',
@@ -30,7 +30,7 @@ const Appbar: React.FC = () => {
               <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
                 <LogoLink to='/'>Spotify</LogoLink>
               </Typography>
-              {user ? <UserMenu user={user}/> : <AnonymousMenu/>}
+              {user ? <UserMenu user={user} /> : <AnonymousMenu />}
             </Grid>
           </Toolbar>
         </Container>

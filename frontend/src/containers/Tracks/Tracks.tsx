@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { selectUser } from '../../store/users/usersSlice';
+import { addTrackToHistory } from '../../store/trackHistory/trackHistoryThunks';
+import {
+  selectTracks,
+  selectTracksAlbumAndArtistName,
+  selectTracksLoading,
+} from '../../store/tracks/tracksSlice';
+import { fetchTracks } from '../../store/tracks/tracksThunks';
+import { PlayArrow } from '@mui/icons-material';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import {
   Box,
   CircularProgress,
@@ -11,13 +22,6 @@ import {
   Breadcrumbs,
   Button,
 } from '@mui/material';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectUser } from '../../store/users/usersSlice';
-import { PlayArrow } from '@mui/icons-material';
-import { addTrackToHistory } from '../../store/trackHistoryThunks';
-import { selectTracks, selectTracksAlbumAndArtistName, selectTracksLoading } from '../../store/tracks/tracksSlice';
-import { fetchTracks } from '../../store/tracks/tracksThunks';
 
 const Tracks: React.FC = () => {
   const navigate = useNavigate();
