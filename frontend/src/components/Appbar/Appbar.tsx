@@ -10,7 +10,7 @@ import {
   Grid,
 } from '@mui/material';
 import { useAppSelector } from '../../app/hooks';
-import { selectUser } from '../../store/usersSlice';
+import { selectUser } from '../../store/users/usersSlice';
 import UserMenu from './UserMenu';
 import AnonymousMenu from './AnonymousMenu';
 

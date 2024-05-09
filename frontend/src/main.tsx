@@ -6,12 +6,15 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Provider } from 'react-redux';
 import { persistor, store } from './app/store';
 import { PersistGate } from 'redux-persist/integration/react';
+import { addInterceptors } from './axiosApi';
 
 const theme = createTheme({
   palette: {
     mode: 'dark',
   },
 });
+
+addInterceptors(store);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <Provider store={store}>

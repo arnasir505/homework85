@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectUser } from '../../store/usersSlice';
+import { selectUser } from '../../store/users/usersSlice';
 import { PlayArrow } from '@mui/icons-material';
 import { addTrackToHistory } from '../../store/trackHistoryThunks';
 

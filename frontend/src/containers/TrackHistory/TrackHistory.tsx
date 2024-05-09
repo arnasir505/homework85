@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchTrackHistory } from '../../store/trackHistoryThunks';
-import { selectUser } from '../../store/usersSlice';
+import { selectUser } from '../../store/users/usersSlice';
 import { useNavigate } from 'react-router-dom';
 import {
   selectTrackHistory,

@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   selectRegisterError,
   selectRegisterLoading,
-} from '../../store/usersSlice';
+} from '../../store/users/usersSlice';
 import { RegisterMutation } from '../../types';
 import {
   Avatar,
@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { register } from '../../store/usersThunk';
+import { register } from '../../store/users/usersThunk';
 import { LoadingButton } from '@mui/lab';
 
 const Register = () => {

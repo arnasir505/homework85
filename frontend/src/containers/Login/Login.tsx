@@ -2,10 +2,19 @@ import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { LoginMutation } from '../../types';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { Container, Box, Avatar, Typography, Grid, TextField, Link, Alert } from '@mui/material';
+import {
+  Container,
+  Box,
+  Avatar,
+  Typography,
+  Grid,
+  TextField,
+  Link,
+  Alert,
+} from '@mui/material';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-import { selectLoginError, selectLoginLoading } from '../../store/usersSlice';
-import { login } from '../../store/usersThunk';
+import { selectLoginError, selectLoginLoading } from '../../store/users/usersSlice';
+import { login } from '../../store/users/usersThunk';
 import { LoadingButton } from '@mui/lab';
 
 const Login = () => {
@@ -27,8 +36,8 @@ const Login = () => {
 
   const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
-      await dispatch(login(state)).unwrap()
-      navigate('/');
+    await dispatch(login(state)).unwrap();
+    navigate('/');
   };
 
   return (
@@ -48,7 +57,11 @@ const Login = () => {
           Sign in
         </Typography>
         {error && (
-          <Alert severity='error' variant='filled' sx={{ mt: 5, width: '100%' }}>
+          <Alert
+            severity='error'
+            variant='filled'
+            sx={{ mt: 5, width: '100%' }}
+          >
             {error.error}
           </Alert>
         )}

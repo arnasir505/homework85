@@ -9,7 +9,7 @@ import {
   persistReducer,
   persistStore,
 } from 'redux-persist';
-import { usersReducer } from '../store/usersSlice';
+import { usersReducer } from '../store/users/usersSlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { trackHistoryReducer } from '../store/trackHistorySlice';
 

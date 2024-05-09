@@ -1,7 +1,7 @@
-import { GlobalError, User, ValidationError } from '../types';
+import { GlobalError, User, ValidationError } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../app/store';
-import { login, register } from './usersThunk';
+import { RootState } from '../../app/store';
+import { login, logout, register } from './usersThunk';
 
 interface UsersState {
   user: User | null;
@@ -9,6 +9,7 @@ interface UsersState {
   registerError: ValidationError | null;
   loginLoading: boolean;
   loginError: GlobalError | null;
+  logoutLoading: boolean;
 }
 
 const initialState: UsersState = {
@@ -17,12 +18,17 @@ const initialState: UsersState = {
   registerError: null,
   loginLoading: false,
   loginError: null,
+  logoutLoading: false,
 };
 
 export const usersSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {},
+  reducers: {
+    unsetUser: (state) => {
+      state.user = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(register.pending, (state) => {
       state.registerLoading = true;
@@ -50,10 +56,22 @@ export const usersSlice = createSlice({
         state.loginLoading = false;
         state.loginError = error || null;
       });
+
+    builder
+      .addCase(logout.pending, (state) => {
+        state.logoutLoading = true;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.logoutLoading = false;
+      })
+      .addCase(logout.rejected, (state) => {
+        state.logoutLoading = false;
+      });
   },
 });
 
 export const usersReducer = usersSlice.reducer;
+export const { unsetUser } = usersSlice.actions;
 
 export const selectUser = (state: RootState) => state.users.user;
 export const selectRegisterLoading = (state: RootState) =>
@@ -63,3 +81,5 @@ export const selectRegisterError = (state: RootState) =>
 export const selectLoginLoading = (state: RootState) =>
   state.users.loginLoading;
 export const selectLoginError = (state: RootState) => state.users.loginError;
+export const selectLogoutLoading = (state: RootState) =>
+  state.users.logoutLoading;

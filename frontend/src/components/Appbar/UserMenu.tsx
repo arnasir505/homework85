@@ -1,14 +1,19 @@
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Button, CircularProgress, Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 import { User } from '../../types';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { selectLogoutLoading } from '../../store/users/usersSlice';
+import { logout } from '../../store/users/usersThunk';
 
 interface Props {
   user: User;
 }
 
 const UserMenu: React.FC<Props> = ({ user }) => {
+  const dispatch = useAppDispatch();
   const [anchorEl, setAncorEl] = useState<HTMLElement | null>(null);
+  const loading = useAppSelector(selectLogoutLoading);
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     setAncorEl(e.currentTarget);
@@ -16,6 +21,10 @@ const UserMenu: React.FC<Props> = ({ user }) => {
 
   const handleClose = () => {
     setAncorEl(null);
+  };
+
+  const handleLogout = async () => {
+    await dispatch(logout());
   };
 
   return (
@@ -36,6 +45,10 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           >
             Track History
           </Link>
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>
+          {loading && <CircularProgress size={20} sx={{ mr: 1 }} />}
+          Log out
         </MenuItem>
       </Menu>
     </>

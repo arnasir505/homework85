@@ -6,9 +6,11 @@ import {
   RegisterResponse,
   User,
   ValidationError,
-} from '../types';
-import axiosApi from '../axiosApi';
+} from '../../types';
+import axiosApi from '../../axiosApi';
 import { isAxiosError } from 'axios';
+import { RootState } from '../../app/store';
+import { unsetUser } from './usersSlice';
 
 export const register = createAsyncThunk<
   User,
@@ -57,3 +59,11 @@ export const login = createAsyncThunk<
     throw error;
   }
 });
+
+export const logout = createAsyncThunk<void, undefined, { state: RootState }>(
+  'users/logout',
+  async (_, { dispatch }) => {
+    await axiosApi.delete('/users/sessions');
+    dispatch(unsetUser());
+  }
+);
