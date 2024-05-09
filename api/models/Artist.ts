@@ -9,6 +9,11 @@ const ArtistSchema = new Schema(
     },
     information: String,
     image: String || null,
+    isPublished: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
   {
     versionKey: false,
