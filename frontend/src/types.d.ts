@@ -27,8 +27,13 @@ export interface Track {
   isPublished: boolean;
 }
 
-export interface TrackByAlbum {
-  album: Album;
+export interface TracksByAlbum {
+  album: {
+    title: string;
+    artist: {
+      name: string;
+    };
+  };
   tracks: Track[];
 }
 
@@ -74,10 +79,10 @@ export interface HistoryTrack {
   track: {
     _id: string;
     title: string;
-  },
+  };
   artist: {
     _id: string;
     name: string;
-  },
+  };
   datetime: string;
 }

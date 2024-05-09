@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Track, TrackByAlbum } from '../../types';
-import axiosApi from '../../axiosApi';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   CircularProgress,
@@ -18,32 +16,22 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectUser } from '../../store/users/usersSlice';
 import { PlayArrow } from '@mui/icons-material';
 import { addTrackToHistory } from '../../store/trackHistoryThunks';
+import { selectTracks, selectTracksAlbumAndArtistName, selectTracksLoading } from '../../store/tracks/tracksSlice';
+import { fetchTracks } from '../../store/tracks/tracksThunks';
 
 const Tracks: React.FC = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
-  const [tracks, setTracks] = useState<Track[]>([]);
-  const [loading, setLoading] = useState(false);
+  const tracks = useAppSelector(selectTracks);
+  const loading = useAppSelector(selectTracksLoading);
+  const album = useAppSelector(selectTracksAlbumAndArtistName);
   const [disabledBtn, setDisabledBtn] = useState('');
-  const [album, setAlbum] = useState({
-    title: '',
-    artist: {
-      name: '',
-    },
-  });
 
-  const fetchTracks = async () => {
+  const getTracks = async () => {
     try {
       if (user) {
-        setLoading(true);
-        const response = await axiosApi.get<TrackByAlbum>(
-          `/tracks${location.search}`
-        );
-        setTracks(response.data.tracks);
-        setAlbum(response.data.album);
-        setLoading(false);
+        await dispatch(fetchTracks());
       } else {
         navigate('/login');
       }
@@ -53,7 +41,7 @@ const Tracks: React.FC = () => {
   };
 
   useEffect(() => {
-    void fetchTracks();
+    void getTracks();
   }, []);
 
   const onPlayClick = async (trackId: string) => {
@@ -75,8 +63,8 @@ const Tracks: React.FC = () => {
           separator={<NavigateNextIcon fontSize='small' />}
           sx={{ mb: 1 }}
         >
-          <Typography variant='h6'>{album.artist.name}</Typography>
-          <Typography variant='h6'>{album.title}</Typography>
+          <Typography variant='h6'>{album?.artist.name}</Typography>
+          <Typography variant='h6'>{album?.title}</Typography>
         </Breadcrumbs>
         <Grid container spacing={2}>
           {tracks.map((track) => (

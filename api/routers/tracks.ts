@@ -50,7 +50,7 @@ tracksRouter.get('/', async (req, res, next) => {
       const tracks = await Track.find({ album: albumId.toString() }).sort({
         position: 'asc',
       });
-      const album = await Album.findById(albumId).populate('artist', 'name');
+      const album = await Album.findById(albumId, {year: 0, image: 0, isPublished: 0}).populate('artist', 'name');
       return res.send({ album, tracks });
     }
     const tracks = await Track.find();
