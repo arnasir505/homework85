@@ -3,6 +3,7 @@ import Track from '../models/Track';
 import mongoose from 'mongoose';
 import { TrackMutation } from '../types';
 import Album from '../models/Album';
+import auth from '../middleware/auth';
 
 const tracksRouter = express.Router();
 
@@ -27,22 +28,24 @@ tracksRouter.get('/', async (req, res, next) => {
   }
 });
 
-tracksRouter.post('/', async (req, res, next) => {
+tracksRouter.post('/', auth, async (req, res, next) => {
   try {
-    if (!req.body.title || !req.body.album || !req.body.duration) {
-      return res
-        .status(422)
-        .send({ error: 'Track title, album and duration is required!' });
-    }
-
     if (!mongoose.Types.ObjectId.isValid(req.body.album)) {
       return res.status(422).send({ error: 'Invalid album!' });
+    }
+    
+    let position = 1;
+    const tracks = await Track.find({album: req.body.album}).sort({position: 'desc'});
+
+    if (tracks.length > 0) {
+      position = tracks[0].position + 1;
     }
 
     const trackData: TrackMutation = {
       title: req.body.title,
       album: req.body.album,
       duration: req.body.duration,
+      position: position,
     };
 
     const track = new Track(trackData);
@@ -50,6 +53,9 @@ tracksRouter.post('/', async (req, res, next) => {
 
     return res.send(track);
   } catch (error) {
+    if (error instanceof mongoose.Error.ValidationError) {
+      return res.status(422).send(error);
+    }
     next(error);
   }
 });

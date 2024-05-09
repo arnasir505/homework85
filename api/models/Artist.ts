@@ -7,7 +7,7 @@ const ArtistSchema = new Schema(
       required: true,
       unique: true,
     },
-    information: String,
+    information: String || null,
     image: String || null,
     isPublished: {
       type: Boolean,
