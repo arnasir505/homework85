@@ -13,6 +13,7 @@ import { usersReducer } from '../store/users/usersSlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { trackHistoryReducer } from '../store/trackHistorySlice';
 import { artistsReducer } from '../store/artists/artistsSlice';
+import { albumsReducer } from '../store/albums/albumsSlice';
 
 const userPersistConfig = {
   key: 'spotify:users',
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   users: persistReducer(userPersistConfig, usersReducer),
   trackHistory: trackHistoryReducer,
   artists: artistsReducer,
+  albums: albumsReducer,
 });
 
 export const store = configureStore({

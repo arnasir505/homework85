@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Album } from '../../types';
-import axiosApi from '../../axiosApi';
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { apiUrl } from '../../constants';
 import {
   Box,
@@ -15,27 +13,25 @@ import {
   Breadcrumbs,
 } from '@mui/material';
 import albumPlaceholder from '../../assets/images/album-placeholder.png';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { fetchAlbums } from '../../store/albums/albumsThunks';
+import {
+  selectAlbums,
+  selectAlbumsArtistName,
+  selectAlbumsLoading,
+} from '../../store/albums/albumsSlice';
 
 const Albums: React.FC = () => {
-  const location = useLocation();
-  const [albums, setAlbums] = useState<Album[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [artist, setArtist] = useState('');
-
-  const fetchAlbums = async () => {
-    try {
-      setLoading(true);
-      const response = await axiosApi.get<Album[]>(`/albums${location.search}`);
-      setAlbums(response.data);
-      setArtist(response.data[0].artist.name);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
+  const dispatch = useAppDispatch();
+  const albums = useAppSelector(selectAlbums);
+  const loading = useAppSelector(selectAlbumsLoading);
+  const artistName = useAppSelector(selectAlbumsArtistName);
+  const getAlbums = async () => {
+    await dispatch(fetchAlbums());
   };
 
   useEffect(() => {
-    void fetchAlbums();
+    void getAlbums();
   }, []);
 
   let content = (
@@ -47,10 +43,8 @@ const Albums: React.FC = () => {
   if (albums.length > 0 && !loading) {
     content = (
       <>
-        <Breadcrumbs
-          sx={{ mb: 1 }}
-        >
-          <Typography variant='h6'>{artist}</Typography>
+        <Breadcrumbs sx={{ mb: 1 }}>
+          <Typography variant='h6'>{artistName}</Typography>
         </Breadcrumbs>
         <Grid container spacing={2}>
           {albums.map((album) => (
