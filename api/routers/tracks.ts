@@ -7,33 +7,8 @@ import auth from '../middleware/auth';
 
 const tracksRouter = express.Router();
 
-tracksRouter.get('/', async (req, res, next) => {
-  try {
-    const albumId = req.query.album;
-
-    if (albumId) {
-      if (!mongoose.Types.ObjectId.isValid(albumId.toString())) {
-        return res.status(422).send({ error: 'Invalid album!' });
-      }
-      const tracks = await Track.find({ album: albumId.toString() }).sort({
-        position: 'asc',
-      });
-      const album = await Album.findById(albumId).populate('artist', 'name');
-      return res.send({ album, tracks });
-    }
-    const tracks = await Track.find();
-    return res.send(tracks);
-  } catch (error) {
-    next(error);
-  }
-});
-
 tracksRouter.post('/', auth, async (req, res, next) => {
   try {
-    if (!mongoose.Types.ObjectId.isValid(req.body.album)) {
-      return res.status(422).send({ error: 'Invalid album!' });
-    }
-    
     let position = 1;
     const tracks = await Track.find({album: req.body.album}).sort({position: 'desc'});
 
@@ -56,6 +31,27 @@ tracksRouter.post('/', auth, async (req, res, next) => {
     if (error instanceof mongoose.Error.ValidationError) {
       return res.status(422).send(error);
     }
+    next(error);
+  }
+});
+
+tracksRouter.get('/', async (req, res, next) => {
+  try {
+    const albumId = req.query.album;
+
+    if (albumId) {
+      if (!mongoose.Types.ObjectId.isValid(albumId.toString())) {
+        return res.status(422).send({ error: 'Invalid album!' });
+      }
+      const tracks = await Track.find({ album: albumId.toString() }).sort({
+        position: 'asc',
+      });
+      const album = await Album.findById(albumId).populate('artist', 'name');
+      return res.send({ album, tracks });
+    }
+    const tracks = await Track.find();
+    return res.send(tracks);
+  } catch (error) {
     next(error);
   }
 });
