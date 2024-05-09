@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import axiosApi from '../../axiosApi';
-import { Artist } from '../../types';
+import React, { useEffect } from 'react';
 import {
   Box,
   Card,
@@ -14,24 +12,24 @@ import {
 import { Link } from 'react-router-dom';
 import { apiUrl } from '../../constants';
 import personPlaceholder from '../../assets/images/person-placeholder.jpg';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import {
+  selectArtists,
+  selectArtistsLoading,
+} from '../../store/artists/artistsSlice';
+import { fetchArtists } from '../../store/artists/artistsThunks';
 
 const Artists: React.FC = () => {
-  const [artists, setArtists] = useState<Artist[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  const fetchArtists = async () => {
-    try {
-      setLoading(true);
-      const response = await axiosApi.get<Artist[]>('/artists');
-      setArtists(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
+  const dispatch = useAppDispatch();
+  const artists = useAppSelector(selectArtists);
+  const loading = useAppSelector(selectArtistsLoading);
+  
+  const getArtists = async () => {
+    await dispatch(fetchArtists());
   };
 
   useEffect(() => {
-    void fetchArtists();
+    void getArtists();
   }, []);
 
   let content = (
