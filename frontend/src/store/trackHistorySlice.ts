@@ -42,5 +42,3 @@ export const selectTrackHistory = (state: RootState) =>
   state.trackHistory.tracks;
 export const selectTrackHistoryLoading = (state: RootState) =>
   state.trackHistory.loading;
-export const selectTrackHistoryError = (state: RootState) =>
-  state.trackHistory.error;

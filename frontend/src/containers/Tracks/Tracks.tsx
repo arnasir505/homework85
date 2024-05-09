@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Track, TrackByAlbum } from '../../types';
 import axiosApi from '../../axiosApi';
 import {
@@ -20,9 +20,10 @@ import { PlayArrow } from '@mui/icons-material';
 import { addTrackToHistory } from '../../store/trackHistoryThunks';
 
 const Tracks: React.FC = () => {
-  const user = useAppSelector(selectUser);
-  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
   const [tracks, setTracks] = useState<Track[]>([]);
   const [loading, setLoading] = useState(false);
   const [disabledBtn, setDisabledBtn] = useState('');
@@ -35,13 +36,17 @@ const Tracks: React.FC = () => {
 
   const fetchTracks = async () => {
     try {
-      setLoading(true);
-      const response = await axiosApi.get<TrackByAlbum>(
-        `/tracks${location.search}`
-      );
-      setTracks(response.data.tracks);
-      setAlbum(response.data.album);
-      setLoading(false);
+      if (user) {
+        setLoading(true);
+        const response = await axiosApi.get<TrackByAlbum>(
+          `/tracks${location.search}`
+        );
+        setTracks(response.data.tracks);
+        setAlbum(response.data.album);
+        setLoading(false);
+      } else {
+        navigate('/login');
+      }
     } catch (error) {
       console.log(error);
     }
