@@ -2,7 +2,7 @@ import express from 'express';
 import Artist from '../models/Artist';
 import { imagesUpload } from '../multer';
 import mongoose, { mongo } from 'mongoose';
-import { ArtistMutation } from '../types';
+import { ArtistFields } from '../types';
 import auth from '../middleware/auth';
 import permit from '../middleware/permit';
 
@@ -14,10 +14,11 @@ artistsRouter.post(
   imagesUpload.single('image'),
   async (req, res, next) => {
     try {
-      const artistData: ArtistMutation = {
+      const artistData: ArtistFields = {
         name: req.body.name,
         information: req.body.information || null,
         image: req.file ? req.file.filename : null,
+        isPublished: false,
       };
 
       const artist = new Artist(artistData);
@@ -46,6 +47,26 @@ artistsRouter.get('/', async (_req, res, next) => {
     next(error);
   }
 });
+
+artistsRouter.patch(
+  '/:id/togglePublished',
+  auth,
+  permit('admin'),
+  async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      const artist = await Artist.findById(id);
+      if (!artist) {
+        return res.status(404).send({ error: 'Not Found' });
+      }
+      artist.togglePublished();
+      await artist.save();
+      return res.send(artist);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 artistsRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
   try {

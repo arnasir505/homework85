@@ -1,6 +1,13 @@
-import { Schema, model } from 'mongoose';
+import { Model, Schema, model } from 'mongoose';
+import { ArtistFields } from '../types';
 
-const ArtistSchema = new Schema(
+interface ArtistMethods {
+  togglePublished(): void;
+}
+
+type ArtistModel = Model<ArtistFields, {}, ArtistMethods>;
+
+const ArtistSchema = new Schema<ArtistFields, ArtistModel>(
   {
     name: {
       type: String,
@@ -20,6 +27,10 @@ const ArtistSchema = new Schema(
   }
 );
 
-const Artist = model('Artist', ArtistSchema);
+ArtistSchema.method('togglePublished', function () {
+  this.isPublished = !this.isPublished;
+});
+
+const Artist = model<ArtistFields, ArtistModel>('Artist', ArtistSchema);
 
 export default Artist;

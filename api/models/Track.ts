@@ -1,7 +1,14 @@
-import { Schema, Types, model } from 'mongoose';
+import { Model, Schema, Types, model } from 'mongoose';
 import Album from './Album';
+import { TrackFields } from '../types';
 
-const TrackSchema = new Schema(
+interface TrackMethods {
+  togglePublished(): void;
+}
+
+type TrackModel = Model<TrackFields, {}, TrackMethods>;
+
+const TrackSchema = new Schema<TrackFields, TrackModel>(
   {
     title: {
       type: String,
@@ -35,6 +42,10 @@ const TrackSchema = new Schema(
   }
 );
 
-const Track = model('Track', TrackSchema);
+TrackSchema.method('togglePublished', function () {
+  this.isPublished = !this.isPublished;
+});
+
+const Track = model<TrackFields, TrackModel>('Track', TrackSchema);
 
 export default Track;

@@ -1,5 +1,5 @@
 import express from 'express';
-import { TrackHistoryMutation } from '../types';
+import { TrackHistoryFields } from '../types';
 import TrackHistory from '../models/TrackHistory';
 import mongoose from 'mongoose';
 import auth, { RequestWithUser } from '../middleware/auth';
@@ -16,7 +16,7 @@ trackHistoryRouter.post('/', auth, async (req: RequestWithUser, res, next) => {
     const album = await Album.findOne({ _id: track?.album });
     const artist = await Artist.findOne({ _id: album?.artist });
 
-    const trackHistoryData: TrackHistoryMutation = {
+    const trackHistoryData: TrackHistoryFields = {
       user: req.user?.id,
       track: req.body.track,
       artist: artist?.id,

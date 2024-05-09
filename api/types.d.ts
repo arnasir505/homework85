@@ -1,21 +1,26 @@
-export interface ArtistMutation {
+import { ObjectId } from "mongoose";
+
+export interface ArtistFields {
   name: string;
   information: string | null;
   image: string | null;
+  isPublished: boolean;
 }
 
-export interface AlbumMutation {
+export interface AlbumFields {
   title: string;
-  artist: string;
-  year: string;
+  artist: ObjectId;
+  year: number;
   image: string | null;
+  isPublished: boolean;
 }
 
-export interface TrackMutation {
+export interface TrackFields {
   title: string;
-  album: string;
+  album: ObjectId;
   duration: string;
   position: number;
+  isPublished: boolean;
 }
 
 export interface UserFields {
@@ -25,7 +30,7 @@ export interface UserFields {
   role: string;
 }
 
-export interface TrackHistoryMutation {
+export interface TrackHistoryFields {
   user: string;
   track: string;
   artist: string;

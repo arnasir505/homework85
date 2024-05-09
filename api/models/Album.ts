@@ -1,7 +1,14 @@
-import { Schema, Types, model } from 'mongoose';
+import { Model, Schema, Types, model } from 'mongoose';
 import Artist from './Artist';
+import { AlbumFields } from '../types';
 
-const AlbumSchema = new Schema(
+interface AlbumMethods {
+  togglePublished(): void;
+}
+
+type AlbumModel = Model<AlbumFields, {}, AlbumMethods>;
+
+const AlbumSchema = new Schema<AlbumFields, AlbumModel>(
   {
     title: {
       type: String,
@@ -32,6 +39,10 @@ const AlbumSchema = new Schema(
   }
 );
 
-const Album = model('Album', AlbumSchema);
+AlbumSchema.method('togglePublished', function () {
+  this.isPublished = !this.isPublished;
+});
+
+const Album = model<AlbumFields, AlbumModel>('Album', AlbumSchema);
 
 export default Album;

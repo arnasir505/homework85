@@ -1,7 +1,7 @@
 import express from 'express';
 import Track from '../models/Track';
 import mongoose from 'mongoose';
-import { TrackMutation } from '../types';
+import { TrackFields } from '../types';
 import Album from '../models/Album';
 import auth from '../middleware/auth';
 import permit from '../middleware/permit';
@@ -19,11 +19,12 @@ tracksRouter.post('/', auth, async (req, res, next) => {
       position = tracks[0].position + 1;
     }
 
-    const trackData: TrackMutation = {
+    const trackData: TrackFields = {
       title: req.body.title,
       album: req.body.album,
       duration: req.body.duration,
       position: position,
+      isPublished: false,
     };
 
     const track = new Track(trackData);
@@ -58,6 +59,26 @@ tracksRouter.get('/', async (req, res, next) => {
     next(error);
   }
 });
+
+tracksRouter.patch(
+  '/:id/togglePublished',
+  auth,
+  permit('admin'),
+  async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      const track = await Track.findById(id);
+      if (!track) {
+        return res.status(404).send({ error: 'Not Found' });
+      }
+      track.togglePublished();
+      await track.save();
+      return res.send(track);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 tracksRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
   try {
