@@ -31,7 +31,9 @@ artistsRouter.post(
       }
 
       if (error instanceof mongo.MongoServerError && error.code === 11000) {
-        return res.status(422).send({ error: 'This artist already exists.' });
+        return res.status(422).send({
+          errors: { name: { message: 'This artist already exists.' } },
+        });
       }
 
       next(error);
@@ -50,7 +52,7 @@ artistsRouter.get(
         return res.sendStatus(403);
       }
       if (role === 'admin') {
-        const artists = await Artist.find().sort({name: 'asc'});
+        const artists = await Artist.find().sort({ name: 'asc' });
         return res.send(artists);
       }
       const artists = await Artist.find({ isPublished: true });

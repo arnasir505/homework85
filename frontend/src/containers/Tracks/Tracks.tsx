@@ -79,6 +79,7 @@ const Tracks: React.FC = () => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
+                    flexWrap: 'wrap'
                   }}
                 >
                   <Box>

@@ -64,6 +64,7 @@ const AdminPage: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               flexGrow: '1',
+              flexWrap: 'wrap',
               px: 2,
             }}
           >
@@ -113,6 +114,7 @@ const AdminPage: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               flexGrow: '1',
+              flexWrap: 'wrap',
               px: 2,
             }}
           >
@@ -151,18 +153,24 @@ const AdminPage: React.FC = () => {
       </Typography>
       {tracks.map((track) => (
         <Card sx={{ mt: 1 }} key={track._id}>
-          <Box sx={{ display: 'flex', alignItems: 'center', p: 1 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              py: 1,
+              px: 2,
+              flexWrap: 'wrap',
+            }}
+          >
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 1,
                 flexGrow: 1,
+                gap: 1,
               }}
             >
-              <Typography variant='body1'>
-                {track.title}
-              </Typography>
+              <Typography variant='body1'>{track.title}</Typography>
               <Typography variant='body1' sx={{ color: '#bcbcbc' }}>
                 {track.duration}
               </Typography>
