@@ -58,6 +58,7 @@ const NewArtist: React.FC = () => {
         <Grid container rowSpacing={2}>
           <Grid item xs={12}>
             <TextField
+              required
               type='text'
               name='name'
               label='Name'

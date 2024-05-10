@@ -117,7 +117,7 @@ const NewAlbum: React.FC = () => {
           <Grid item xs={12}>
             <TextField
               required
-              type='text'
+              type='number'
               name='year'
               label='Year'
               value={newAlbum.year}

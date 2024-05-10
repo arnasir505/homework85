@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { apiUrl } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
@@ -18,9 +18,12 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
+import { selectUser } from '../../store/users/usersSlice';
 
 const Artists: React.FC = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
   const artists = useAppSelector(selectArtists);
   const loading = useAppSelector(selectArtistsLoading);
 
@@ -29,6 +32,9 @@ const Artists: React.FC = () => {
   };
 
   useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
     void getArtists();
   }, []);
 

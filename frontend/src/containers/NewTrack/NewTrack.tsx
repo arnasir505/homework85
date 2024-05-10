@@ -79,6 +79,7 @@ const NewTrack: React.FC = () => {
         <Grid container rowSpacing={2}>
           <Grid item xs={12}>
             <TextField
+              required
               type='text'
               name='title'
               label='Title'
@@ -118,6 +119,7 @@ const NewTrack: React.FC = () => {
             >
               <InputLabel>Select Album</InputLabel>
               <Select
+                required
                 defaultValue=''
                 autoWidth
                 name='album'
@@ -136,6 +138,7 @@ const NewTrack: React.FC = () => {
           </Grid>
           <Grid item xs={12}>
             <TextField
+              required
               type='text'
               name='duration'
               label='Duration'
@@ -145,7 +148,7 @@ const NewTrack: React.FC = () => {
               value={newTrack.duration}
               onChange={(e) => dispatch(updateDuration(e.target.value))}
               error={Boolean(getFieldError('duration'))}
-              helperText={getFieldError('duration') || 'Format: 3:15 etc.'}
+              helperText={`${getFieldError('duration') || ''} Format: 3:15 etc.`}
             />
           </Grid>
           <Grid item>
