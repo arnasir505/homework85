@@ -3,7 +3,7 @@ import Artist from '../models/Artist';
 import { imagesUpload } from '../multer';
 import mongoose, { mongo } from 'mongoose';
 import { ArtistFields } from '../types';
-import auth from '../middleware/auth';
+import auth, { RequestWithUser } from '../middleware/auth';
 import permit from '../middleware/permit';
 
 const artistsRouter = express.Router();
@@ -39,14 +39,27 @@ artistsRouter.post(
   }
 );
 
-artistsRouter.get('/', async (_req, res, next) => {
-  try {
-    const artists = await Artist.find();
-    return res.send(artists);
-  } catch (error) {
-    next(error);
+artistsRouter.get(
+  '/',
+  auth,
+  permit('admin', 'user'),
+  async (req: RequestWithUser, res, next) => {
+    try {
+      const role = req.user?.role;
+      if (!role) {
+        return res.sendStatus(403);
+      }
+      if (role === 'admin') {
+        const artists = await Artist.find();
+        return res.send(artists);
+      }
+      const artists = await Artist.find({ isPublished: true });
+      return res.send(artists);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 artistsRouter.patch(
   '/:id/togglePublished',

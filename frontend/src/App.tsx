@@ -13,6 +13,8 @@ import { Typography } from '@mui/material';
 import { useAppSelector } from './app/hooks';
 import { selectUser } from './store/users/usersSlice';
 import { useEffect } from 'react';
+import AdminPage from './containers/Admin/AdminPage';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 const App = () => {
   const navigate = useNavigate();
@@ -38,6 +40,14 @@ const App = () => {
           <Route path='/artists/new' element={<NewArtist />} />
           <Route path='/albums/new' element={<NewAlbum />} />
           <Route path='/tracks/new' element={<NewTrack />} />
+          <Route
+            path='/admin'
+            element={
+              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+                <AdminPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path='*'
             element={

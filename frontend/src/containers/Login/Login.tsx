@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { LoginMutation } from '../../types';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectLoginError, selectLoginLoading } from '../../store/users/usersSlice';
+import {
+  selectLoginError,
+  selectLoginLoading,
+} from '../../store/users/usersSlice';
 import { login } from '../../store/users/usersThunk';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { LoadingButton } from '@mui/lab';
@@ -69,6 +72,7 @@ const Login = () => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
+                required
                 fullWidth
                 label='Username'
                 name='username'
@@ -79,6 +83,7 @@ const Login = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                required
                 fullWidth
                 name='password'
                 label='Password'

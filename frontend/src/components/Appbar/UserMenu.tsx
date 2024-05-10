@@ -70,6 +70,16 @@ const UserMenu: React.FC<Props> = ({ user }) => {
             Add Track
           </Link>
         </MenuItem>
+        {user.role === 'admin' && (
+          <MenuItem>
+            <Link
+              to='/admin'
+              style={{ color: 'inherit', textDecoration: 'none' }}
+            >
+              Admin
+            </Link>
+          </MenuItem>
+        )}
         <MenuItem onClick={handleLogout}>
           {loading && <CircularProgress size={20} sx={{ mr: 1 }} />}
           Log out
