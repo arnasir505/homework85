@@ -35,7 +35,7 @@ const tracksSlice = createSlice({
       .addCase(fetchTracks.fulfilled, (state, { payload: tracksByAlbum }) => {
         state.loading = false;
         state.tracks = tracksByAlbum.tracks;
-        state.album = tracksByAlbum.album;
+        state.album = tracksByAlbum.album || null;
       })
       .addCase(fetchTracks.rejected, (state) => {
         state.loading = false;

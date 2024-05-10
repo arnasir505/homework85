@@ -14,28 +14,36 @@ import {
 import personPlaceholder from '../../assets/images/person-placeholder.jpg';
 import { selectAdminPageDisabledBtn } from '../../store/admin/adminSlice';
 import { deleteEntity, togglePublish } from '../../store/admin/adminThunks';
+import { selectAlbums } from '../../store/albums/albumsSlice';
+import { fetchAlbums } from '../../store/albums/albumsThunks';
+import { selectTracks } from '../../store/tracks/tracksSlice';
+import { fetchTracks } from '../../store/tracks/tracksThunks';
 
 const AdminPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const artists = useAppSelector(selectArtists);
+  const albums = useAppSelector(selectAlbums);
+  const tracks = useAppSelector(selectTracks);
   const disabledBtn = useAppSelector(selectAdminPageDisabledBtn);
 
-  const getArtists = async () => {
+  const fetchAllEntities = async () => {
     await dispatch(fetchArtists());
+    await dispatch(fetchAlbums());
+    await dispatch(fetchTracks());
   };
 
   const onTogglePublish = async (route: string, id: string) => {
     await dispatch(togglePublish({ route: route, id: id }));
-    await dispatch(fetchArtists());
+    void fetchAllEntities();
   };
 
   const onDelete = async (route: string, id: string) => {
     await dispatch(deleteEntity({ route: route, id: id }));
-    await dispatch(fetchArtists());
+    void fetchAllEntities();
   };
 
   useEffect(() => {
-    void getArtists();
+    void fetchAllEntities();
   }, []);
 
   return (
@@ -62,7 +70,7 @@ const AdminPage: React.FC = () => {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Typography variant='body1'>{artist.name}</Typography>
               <Typography variant='body2' color='lightgray'>
-                {artist.isPublished ? '✔️' : '🚫'}
+                {artist.isPublished ? '✔️' : '⛔️'}
               </Typography>
             </Box>
             <Box sx={{ ml: 'auto' }}>
@@ -82,6 +90,103 @@ const AdminPage: React.FC = () => {
                 size='small'
                 onClick={() => onDelete('artists', artist._id)}
                 disabled={artist._id === disabledBtn}
+              >
+                Delete
+              </Button>
+            </Box>
+          </Box>
+        </Card>
+      ))}
+      <Typography variant='h5' sx={{ mt: 3 }}>
+        All albums
+      </Typography>
+      {albums.map((album) => (
+        <Card sx={{ display: 'flex', mt: 1 }} key={album._id}>
+          <CardMedia
+            component={'img'}
+            image={album.image ? apiUrl + '/' + album.image : personPlaceholder}
+            alt='img'
+            sx={{ width: 64, height: 64 }}
+          />
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexGrow: '1',
+              px: 2,
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography variant='body1'>{album.title}</Typography>
+              <Typography variant='body2' color='lightgray'>
+                {album.isPublished ? '✔️' : '⛔️'}
+              </Typography>
+            </Box>
+            <Box sx={{ ml: 'auto' }}>
+              <Button
+                variant='outlined'
+                color='primary'
+                size='small'
+                sx={{ mr: 2 }}
+                onClick={() => onTogglePublish('albums', album._id)}
+                disabled={album._id === disabledBtn}
+              >
+                {album.isPublished ? 'Unpublish' : 'Publish'}
+              </Button>
+              <Button
+                variant='outlined'
+                color='error'
+                size='small'
+                onClick={() => onDelete('albums', album._id)}
+                disabled={album._id === disabledBtn}
+              >
+                Delete
+              </Button>
+            </Box>
+          </Box>
+        </Card>
+      ))}
+      <Typography variant='h5' sx={{ mt: 3 }}>
+        All tracks
+      </Typography>
+      {tracks.map((track) => (
+        <Card sx={{ mt: 1 }} key={track._id}>
+          <Box sx={{ display: 'flex', alignItems: 'center', p: 1 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                flexGrow: 1,
+              }}
+            >
+              <Typography variant='body1'>
+                {track.title}
+              </Typography>
+              <Typography variant='body1' sx={{ color: '#bcbcbc' }}>
+                {track.duration}
+              </Typography>
+              <Typography variant='body2' color='lightgray'>
+                {track.isPublished ? '✔️' : '⛔️'}
+              </Typography>
+            </Box>
+            <Box sx={{ ml: 'auto' }}>
+              <Button
+                variant='outlined'
+                color='primary'
+                size='small'
+                sx={{ mr: 2 }}
+                onClick={() => onTogglePublish('tracks', track._id)}
+                disabled={track._id === disabledBtn}
+              >
+                {track.isPublished ? 'Unpublish' : 'Publish'}
+              </Button>
+              <Button
+                variant='outlined'
+                color='error'
+                size='small'
+                onClick={() => onDelete('tracks', track._id)}
+                disabled={track._id === disabledBtn}
               >
                 Delete
               </Button>

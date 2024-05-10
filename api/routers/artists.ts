@@ -50,7 +50,7 @@ artistsRouter.get(
         return res.sendStatus(403);
       }
       if (role === 'admin') {
-        const artists = await Artist.find();
+        const artists = await Artist.find().sort({name: 'asc'});
         return res.send(artists);
       }
       const artists = await Artist.find({ isPublished: true });

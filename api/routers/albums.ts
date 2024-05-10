@@ -47,7 +47,7 @@ albumsRouter.get('/', async (req, res, next) => {
         .sort({ year: 'desc' });
       return res.send(albums);
     }
-    const albums = await Album.find();
+    const albums = await Album.find().sort({title: 'asc'});
     return res.send(albums);
   } catch (error) {
     next(error);

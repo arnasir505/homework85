@@ -62,8 +62,8 @@ tracksRouter.get('/', async (req, res, next) => {
       }).populate('artist', 'name');
       return res.send({ album, tracks });
     }
-    const tracks = await Track.find();
-    return res.send(tracks);
+    const tracks = await Track.find().sort({album: 'asc'});
+    return res.send({albumId, tracks});
   } catch (error) {
     next(error);
   }
