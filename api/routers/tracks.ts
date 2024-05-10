@@ -10,6 +10,11 @@ const tracksRouter = express.Router();
 
 tracksRouter.post('/', auth, async (req, res, next) => {
   try {
+    if (!req.body.album) {
+      return res
+        .status(422)
+        .send({ errors: { album: { message: 'Path `album` is required.' } } });
+    }
     let position = 1;
     const tracks = await Track.find({ album: req.body.album }).sort({
       position: 'desc',
@@ -50,7 +55,11 @@ tracksRouter.get('/', async (req, res, next) => {
       const tracks = await Track.find({ album: albumId.toString() }).sort({
         position: 'asc',
       });
-      const album = await Album.findById(albumId, {year: 0, image: 0, isPublished: 0}).populate('artist', 'name');
+      const album = await Album.findById(albumId, {
+        year: 0,
+        image: 0,
+        isPublished: 0,
+      }).populate('artist', 'name');
       return res.send({ album, tracks });
     }
     const tracks = await Track.find();

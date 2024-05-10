@@ -9,6 +9,7 @@ import TrackHistory from './containers/TrackHistory/TrackHistory';
 import { Typography } from '@mui/material';
 import NewArtist from './containers/NewArtist/NewArtist';
 import NewAlbum from './containers/NewAlbum/NewAlbum';
+import NewTrack from './containers/NewTrack/NewTrack';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <Route path='/track-history' element={<TrackHistory />} />
           <Route path='/artists/new' element={<NewArtist />} />
           <Route path='/albums/new' element={<NewAlbum />} />
+          <Route path='/tracks/new' element={<NewTrack />} />
           <Route
             path='*'
             element={
