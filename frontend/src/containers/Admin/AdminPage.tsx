@@ -12,18 +12,32 @@ import {
   Typography,
 } from '@mui/material';
 import personPlaceholder from '../../assets/images/person-placeholder.jpg';
+import { selectAdminPageDisabledBtn } from '../../store/admin/adminSlice';
+import { deleteEntity, togglePublish } from '../../store/admin/adminThunks';
 
 const AdminPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const artists = useAppSelector(selectArtists);
+  const disabledBtn = useAppSelector(selectAdminPageDisabledBtn);
 
   const getArtists = async () => {
+    await dispatch(fetchArtists());
+  };
+
+  const onTogglePublish = async (route: string, id: string) => {
+    await dispatch(togglePublish({ route: route, id: id }));
+    await dispatch(fetchArtists());
+  };
+
+  const onDelete = async (route: string, id: string) => {
+    await dispatch(deleteEntity({ route: route, id: id }));
     await dispatch(fetchArtists());
   };
 
   useEffect(() => {
     void getArtists();
   }, []);
+
   return (
     <Container sx={{ py: 5 }} maxWidth='md'>
       <Typography variant='h5'>All artists</Typography>
@@ -42,17 +56,33 @@ const AdminPage: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               flexGrow: '1',
-              px: 2
+              px: 2,
             }}
           >
-            <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Typography variant='body1'>{artist.name}</Typography>
+              <Typography variant='body2' color='lightgray'>
+                {artist.isPublished ? '✔️' : '🚫'}
+              </Typography>
             </Box>
             <Box sx={{ ml: 'auto' }}>
-              <Button variant='outlined' color='primary' size='small' sx={{mr: 2}}>
+              <Button
+                variant='outlined'
+                color='primary'
+                size='small'
+                sx={{ mr: 2 }}
+                onClick={() => onTogglePublish('artists', artist._id)}
+                disabled={artist._id === disabledBtn}
+              >
                 {artist.isPublished ? 'Unpublish' : 'Publish'}
               </Button>
-              <Button variant='outlined' color='error' size='small'>
+              <Button
+                variant='outlined'
+                color='error'
+                size='small'
+                onClick={() => onDelete('artists', artist._id)}
+                disabled={artist._id === disabledBtn}
+              >
                 Delete
               </Button>
             </Box>

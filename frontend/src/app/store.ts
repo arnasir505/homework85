@@ -18,6 +18,7 @@ import { tracksReducer } from '../store/tracks/tracksSlice';
 import { newArtistReducer } from '../store/newArtist/newArtistSlice';
 import { newAlbumReducer } from '../store/newAlbum/newAlbumSlice';
 import { newTrackReducer } from '../store/newTrack/newTrackSlice';
+import { adminReducer } from '../store/admin/adminSlice';
 
 const userPersistConfig = {
   key: 'spotify:users',
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   newArtist: newArtistReducer,
   newAlbum: newAlbumReducer,
   newTrack: newTrackReducer,
+  admin: adminReducer,
 });
 
 export const store = configureStore({
