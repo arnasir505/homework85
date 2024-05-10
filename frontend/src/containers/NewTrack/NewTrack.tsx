@@ -148,7 +148,9 @@ const NewTrack: React.FC = () => {
               value={newTrack.duration}
               onChange={(e) => dispatch(updateDuration(e.target.value))}
               error={Boolean(getFieldError('duration'))}
-              helperText={`${getFieldError('duration') || ''} Format: 3:15 etc.`}
+              helperText={`${
+                getFieldError('duration') || ''
+              } Format: 3:15 etc.`}
             />
           </Grid>
           <Grid item>

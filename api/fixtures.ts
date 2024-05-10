@@ -262,13 +262,13 @@ const run = async () => {
   await User.create(
     {
       username: 'Admin',
-      password: 'qwerty123',
+      password: 'iLoveBishkek1234%',
       token: crypto.randomUUID(),
       role: 'admin',
     },
     {
       username: 'User',
-      password: 'qwerty1234',
+      password: 'iLoveBishkek4321%',
       token: crypto.randomUUID(),
       role: 'user',
     }

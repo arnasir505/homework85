@@ -29,8 +29,8 @@ const TrackHistorySchema = new Schema(
       required: true,
       validate: {
         validator: async (id: Types.ObjectId) => Artist.findById(id),
-        message: 'Artist does not exist'
-      }
+        message: 'Artist does not exist',
+      },
     },
     datetime: {
       type: String,

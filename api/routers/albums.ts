@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import auth from '../middleware/auth';
 import permit from '../middleware/permit';
 const albumsRouter = express.Router();
+import fs from 'fs';
 
 albumsRouter.post(
   '/',
@@ -47,7 +48,7 @@ albumsRouter.get('/', async (req, res, next) => {
         .sort({ year: 'desc' });
       return res.send(albums);
     }
-    const albums = await Album.find().sort({title: 'asc'});
+    const albums = await Album.find().sort({ title: 'asc' });
     return res.send(albums);
   } catch (error) {
     next(error);
@@ -91,9 +92,23 @@ albumsRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
   try {
     const id = req.params.id;
     const album = await Album.findByIdAndDelete(id);
+
     if (!album) {
       return res.status(404).send({ error: 'Not Found' });
     }
+
+    fs.unlink(`../api/public/${album.image}`, (err) => {
+      if (err) {
+        if (err.code === 'ENOENT') {
+          console.error('File does not exist.');
+        } else {
+          throw err;
+        }
+      } else {
+        console.log('File deleted!');
+      }
+    });
+
     return res.send({ message: 'Deleted' });
   } catch (error) {
     next(error);

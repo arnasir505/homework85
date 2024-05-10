@@ -8,7 +8,7 @@ import { isAxiosError } from 'axios';
 export const addNewArtist = createAsyncThunk<
   void,
   undefined,
-  { state: RootState; rejectValue: ValidationError}
+  { state: RootState; rejectValue: ValidationError }
 >('newArtist/add', async (_, { getState, rejectWithValue }) => {
   try {
     const name = getState().newArtist.data.name;

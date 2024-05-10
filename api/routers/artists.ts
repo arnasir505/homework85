@@ -5,6 +5,7 @@ import mongoose, { mongo } from 'mongoose';
 import { ArtistFields } from '../types';
 import auth, { RequestWithUser } from '../middleware/auth';
 import permit from '../middleware/permit';
+import fs from 'fs';
 
 const artistsRouter = express.Router();
 
@@ -87,9 +88,23 @@ artistsRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
   try {
     const id = req.params.id;
     const artist = await Artist.findByIdAndDelete(id);
+    
     if (!artist) {
       return res.status(404).send({ error: 'Not Found' });
     }
+
+    fs.unlink(`../api/public/${artist.image}`, (err) => {
+      if (err) {
+        if (err.code === 'ENOENT') {
+          console.error('File does not exist.');
+        } else {
+          throw err;
+        }
+      } else {
+        console.log('File deleted!');
+      }
+    });
+
     return res.send({ message: 'Deleted' });
   } catch (error) {
     next(error);

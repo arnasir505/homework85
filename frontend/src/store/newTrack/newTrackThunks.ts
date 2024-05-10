@@ -17,8 +17,8 @@ export const addNewTrack = createAsyncThunk<
     const trackData = {
       title: title,
       album: album,
-      duration: duration
-    }
+      duration: duration,
+    };
 
     await axiosApi.post('/tracks', trackData);
   } catch (error) {
