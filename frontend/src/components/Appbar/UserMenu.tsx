@@ -54,6 +54,14 @@ const UserMenu: React.FC<Props> = ({ user }) => {
             Add Artist
           </Link>
         </MenuItem>
+        <MenuItem>
+          <Link
+            to='/albums/new'
+            style={{ color: 'inherit', textDecoration: 'none' }}
+          >
+            Add Album
+          </Link>
+        </MenuItem>
         <MenuItem onClick={handleLogout}>
           {loading && <CircularProgress size={20} sx={{ mr: 1 }} />}
           Log out

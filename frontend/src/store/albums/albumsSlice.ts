@@ -30,7 +30,9 @@ const albumsSlice = createSlice({
       .addCase(fetchAlbums.fulfilled, (state, { payload: albums }) => {
         state.loading = false;
         state.albums = albums;
-        state.artistName = albums[0].artist.name;
+        if (albums.length > 0) {
+          state.artistName = albums[0].artist.name;
+        }
       })
       .addCase(fetchAlbums.rejected, (state) => {
         state.loading = false;
