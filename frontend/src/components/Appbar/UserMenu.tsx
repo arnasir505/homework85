@@ -38,47 +38,37 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         onClose={handleClose}
         keepMounted
       >
-        <MenuItem>
-          <Link
-            to='/track-history'
-            style={{ color: 'inherit', textDecoration: 'none' }}
-          >
-            Track History
-          </Link>
-        </MenuItem>
-        <MenuItem>
-          <Link
-            to='/artists/new'
-            style={{ color: 'inherit', textDecoration: 'none' }}
-          >
-            Add Artist
-          </Link>
-        </MenuItem>
-        <MenuItem>
-          <Link
-            to='/albums/new'
-            style={{ color: 'inherit', textDecoration: 'none' }}
-          >
-            Add Album
-          </Link>
-        </MenuItem>
-        <MenuItem>
-          <Link
-            to='/tracks/new'
-            style={{ color: 'inherit', textDecoration: 'none' }}
-          >
-            Add Track
-          </Link>
-        </MenuItem>
+        <Link
+          to='/track-history'
+          style={{ color: 'inherit', textDecoration: 'none' }}
+        >
+          <MenuItem>Track History</MenuItem>
+        </Link>
+        <Link
+          to='/artists/new'
+          style={{ color: 'inherit', textDecoration: 'none' }}
+        >
+          <MenuItem>Add Artist</MenuItem>
+        </Link>
+        <Link
+          to='/albums/new'
+          style={{ color: 'inherit', textDecoration: 'none' }}
+        >
+          <MenuItem>Add Album</MenuItem>
+        </Link>
+        <Link
+          to='/tracks/new'
+          style={{ color: 'inherit', textDecoration: 'none' }}
+        >
+          <MenuItem>Add Track</MenuItem>
+        </Link>
         {user.role === 'admin' && (
-          <MenuItem>
-            <Link
-              to='/admin'
-              style={{ color: 'inherit', textDecoration: 'none' }}
-            >
-              Admin
-            </Link>
-          </MenuItem>
+          <Link
+            to='/admin'
+            style={{ color: 'inherit', textDecoration: 'none' }}
+          >
+            <MenuItem>Admin</MenuItem>
+          </Link>
         )}
         <MenuItem onClick={handleLogout}>
           {loading && <CircularProgress size={20} sx={{ mr: 1 }} />}

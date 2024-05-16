@@ -52,7 +52,9 @@ albumsRouter.get('/', async (req, res, next) => {
       return res.send(albums);
     }
 
-    return res.sendStatus(404);
+    const albums = await Album.find({isPublished: true});
+    return res.send(albums);
+
   } catch (error) {
     next(error);
   }
