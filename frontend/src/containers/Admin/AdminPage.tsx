@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectArtists } from '../../store/artists/artistsSlice';
-import { fetchArtists } from '../../store/artists/artistsThunks';
+import { fetchArtistsAdmin } from '../../store/artists/artistsThunks';
 import { apiUrl } from '../../constants';
 import {
   Box,
@@ -15,9 +15,9 @@ import personPlaceholder from '../../assets/images/person-placeholder.jpg';
 import { selectAdminPageDisabledBtn } from '../../store/admin/adminSlice';
 import { deleteEntity, togglePublish } from '../../store/admin/adminThunks';
 import { selectAlbums } from '../../store/albums/albumsSlice';
-import { fetchAlbums } from '../../store/albums/albumsThunks';
+import { fetchAlbumsAdmin } from '../../store/albums/albumsThunks';
 import { selectTracks } from '../../store/tracks/tracksSlice';
-import { fetchTracks } from '../../store/tracks/tracksThunks';
+import { fetchTracksAdmin } from '../../store/tracks/tracksThunks';
 
 const AdminPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -27,9 +27,9 @@ const AdminPage: React.FC = () => {
   const disabledBtn = useAppSelector(selectAdminPageDisabledBtn);
 
   const fetchAllEntities = async () => {
-    await dispatch(fetchArtists());
-    await dispatch(fetchAlbums());
-    await dispatch(fetchTracks());
+    await dispatch(fetchArtistsAdmin());
+    await dispatch(fetchAlbumsAdmin());
+    await dispatch(fetchTracksAdmin());
   };
 
   const onTogglePublish = async (route: string, id: string) => {

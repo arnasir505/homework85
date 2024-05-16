@@ -15,3 +15,15 @@ export const fetchAlbums = createAsyncThunk<Album[], string | undefined>(
     }
   }
 );
+
+export const fetchAlbumsAdmin = createAsyncThunk<Album[]>(
+  'albums/fetchAllAdmin',
+  async () => {
+    try {
+      const response = await axiosApi.get<Album[]>('albums/admin');
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);

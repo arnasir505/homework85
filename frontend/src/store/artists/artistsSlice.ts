@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Artist } from '../../types';
 import { RootState } from '../../app/store';
-import { fetchArtists } from './artistsThunks';
+import { fetchArtists, fetchArtistsAdmin } from './artistsThunks';
 
 interface ArtistsState {
   artists: Artist[];
@@ -30,6 +30,19 @@ const artistsSlice = createSlice({
         state.artists = artists;
       })
       .addCase(fetchArtists.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
+      });
+    builder
+      .addCase(fetchArtistsAdmin.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(fetchArtistsAdmin.fulfilled, (state, { payload: artists }) => {
+        state.loading = false;
+        state.artists = artists;
+      })
+      .addCase(fetchArtistsAdmin.rejected, (state) => {
         state.loading = false;
         state.error = true;
       });

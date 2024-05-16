@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Album } from '../../types';
 import { RootState } from '../../app/store';
-import { fetchAlbums } from './albumsThunks';
+import { fetchAlbums, fetchAlbumsAdmin } from './albumsThunks';
 
 interface AlbumsState {
   albums: Album[];
@@ -35,6 +35,22 @@ const albumsSlice = createSlice({
         }
       })
       .addCase(fetchAlbums.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
+      });
+    builder
+      .addCase(fetchAlbumsAdmin.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(fetchAlbumsAdmin.fulfilled, (state, { payload: albums }) => {
+        state.loading = false;
+        state.albums = albums;
+        if (albums.length > 0) {
+          state.artistName = albums[0].artist.name;
+        }
+      })
+      .addCase(fetchAlbumsAdmin.rejected, (state) => {
         state.loading = false;
         state.error = true;
       });

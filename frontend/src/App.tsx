@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Appbar from './components/Appbar/Appbar';
 import Artists from './containers/Artists/Artists';
 import Albums from './containers/Albums/Albums';
@@ -12,18 +12,11 @@ import NewTrack from './containers/NewTrack/NewTrack';
 import { Typography } from '@mui/material';
 import { useAppSelector } from './app/hooks';
 import { selectUser } from './store/users/usersSlice';
-import { useEffect } from 'react';
 import AdminPage from './containers/Admin/AdminPage';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 const App = () => {
-  const navigate = useNavigate();
   const user = useAppSelector(selectUser);
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-    }
-  }, []);
   return (
     <>
       <header>

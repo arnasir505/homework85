@@ -43,11 +43,23 @@ albumsRouter.get('/', async (req, res, next) => {
       if (!mongoose.Types.ObjectId.isValid(artistId.toString())) {
         return res.status(422).send({ error: 'Invalid artist!' });
       }
-      const albums = await Album.find({ artist: artistId.toString() })
+      const albums = await Album.find({
+        artist: artistId.toString(),
+        isPublished: true,
+      })
         .populate('artist', 'name')
         .sort({ year: 'desc' });
       return res.send(albums);
     }
+
+    return res.sendStatus(404);
+  } catch (error) {
+    next(error);
+  }
+});
+
+albumsRouter.get('/admin', auth, permit('admin'), async (_req, res, next) => {
+  try {
     const albums = await Album.find().sort({ title: 'asc' });
     return res.send(albums);
   } catch (error) {

@@ -13,3 +13,15 @@ export const fetchArtists = createAsyncThunk<Artist[]>(
     }
   }
 );
+
+export const fetchArtistsAdmin = createAsyncThunk<Artist[]>(
+  'artists/fetchAllAdmin',
+  async () => {
+    try {
+      const response = await axiosApi.get<Artist[]>('/artists/admin');
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);

@@ -42,22 +42,27 @@ artistsRouter.post(
   }
 );
 
+artistsRouter.get('/', async (_req, res, next) => {
+  try {
+    const artists = await Artist.find({ isPublished: true });
+    return res.send(artists);
+  } catch (error) {
+    next(error);
+  }
+});
+
 artistsRouter.get(
-  '/',
+  '/admin',
   auth,
-  permit('admin', 'user'),
+  permit('admin'),
   async (req: RequestWithUser, res, next) => {
     try {
       const role = req.user?.role;
-      if (!role) {
-        return res.sendStatus(403);
-      }
       if (role === 'admin') {
         const artists = await Artist.find().sort({ name: 'asc' });
         return res.send(artists);
       }
-      const artists = await Artist.find({ isPublished: true });
-      return res.send(artists);
+      return res.status(403).send({ error: 'Forbidden' });
     } catch (error) {
       next(error);
     }
@@ -88,7 +93,7 @@ artistsRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
   try {
     const id = req.params.id;
     const artist = await Artist.findByIdAndDelete(id);
-    
+
     if (!artist) {
       return res.status(404).send({ error: 'Not Found' });
     }

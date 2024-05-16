@@ -3,7 +3,7 @@ import Track from '../models/Track';
 import mongoose from 'mongoose';
 import { TrackFields } from '../types';
 import Album from '../models/Album';
-import auth from '../middleware/auth';
+import auth, { RequestWithUser } from '../middleware/auth';
 import permit from '../middleware/permit';
 
 const tracksRouter = express.Router();
@@ -52,7 +52,10 @@ tracksRouter.get('/', async (req, res, next) => {
       if (!mongoose.Types.ObjectId.isValid(albumId.toString())) {
         return res.status(422).send({ error: 'Invalid album!' });
       }
-      const tracks = await Track.find({ album: albumId.toString() }).sort({
+      const tracks = await Track.find({
+        album: albumId.toString(),
+        isPublished: true,
+      }).sort({
         position: 'asc',
       });
       const album = await Album.findById(albumId, {
@@ -62,12 +65,26 @@ tracksRouter.get('/', async (req, res, next) => {
       }).populate('artist', 'name');
       return res.send({ album, tracks });
     }
-    const tracks = await Track.find().sort({ album: 'desc' });
-    return res.send({ albumId, tracks });
+
+    return res.sendStatus(404);
   } catch (error) {
     next(error);
   }
 });
+
+tracksRouter.get(
+  '/admin',
+  auth,
+  permit('admin'),
+  async (_req, res, next) => {
+    try {
+      const tracks = await Track.find().sort({ album: 'desc' });
+      return res.send(tracks);
+    } catch (error) {
+      next(error)
+    }
+  }
+);
 
 tracksRouter.patch(
   '/:id/togglePublished',

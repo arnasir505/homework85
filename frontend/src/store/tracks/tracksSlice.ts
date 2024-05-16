@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Track } from '../../types';
 import { RootState } from '../../app/store';
-import { fetchTracks } from './tracksThunks';
+import { fetchTracks, fetchTracksAdmin } from './tracksThunks';
 
 interface TracksState {
   tracks: Track[];
@@ -38,6 +38,19 @@ const tracksSlice = createSlice({
         state.album = tracksByAlbum.album || null;
       })
       .addCase(fetchTracks.rejected, (state) => {
+        state.loading = false;
+        state.error = true;
+      });
+    builder
+      .addCase(fetchTracksAdmin.pending, (state) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(fetchTracksAdmin.fulfilled, (state, { payload: tracks }) => {
+        state.loading = false;
+        state.tracks = tracks;
+      })
+      .addCase(fetchTracksAdmin.rejected, (state) => {
         state.loading = false;
         state.error = true;
       });
