@@ -60,6 +60,30 @@ export const login = createAsyncThunk<
   }
 });
 
+export const loginWithGoogle = createAsyncThunk<
+  User,
+  string,
+  { rejectValue: GlobalError }
+>('users/loginWithGoogle', async (credential, { rejectWithValue }) => {
+  try {
+    const response = await axiosApi.post<RegisterResponse>(
+      '/users/sessions/google',
+      {credential}
+    );
+    return response.data.user;
+  } catch (error) {
+    if (
+      isAxiosError(error) &&
+      error.response &&
+      error.response.status === 400
+    ) {
+      return rejectWithValue(error.response.data);
+    }
+
+    throw error;
+  }
+});
+
 export const logout = createAsyncThunk<void, undefined, { state: RootState }>(
   'users/logout',
   async (_, { dispatch }) => {

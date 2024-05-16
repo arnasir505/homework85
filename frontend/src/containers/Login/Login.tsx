@@ -6,7 +6,7 @@ import {
   selectLoginError,
   selectLoginLoading,
 } from '../../store/users/usersSlice';
-import { login } from '../../store/users/usersThunk';
+import { login, loginWithGoogle } from '../../store/users/usersThunk';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { LoadingButton } from '@mui/lab';
 import {
@@ -32,6 +32,7 @@ const Login = () => {
     email: '',
     password: '',
   });
+
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setState((prevState) => {
@@ -42,6 +43,11 @@ const Login = () => {
   const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     await dispatch(login(state)).unwrap();
+    navigate('/');
+  };
+
+  const loginWithGoogleHandler = async (credential: string) => {
+    await dispatch(loginWithGoogle(credential)).unwrap();
     navigate('/');
   };
 
@@ -121,7 +127,9 @@ const Login = () => {
         <Box sx={{ pt: 2 }}>
           <GoogleLogin
             onSuccess={(credentialResponse) => {
-              console.log(credentialResponse);
+              if (credentialResponse.credential) {
+                void loginWithGoogleHandler(credentialResponse.credential);
+              }
             }}
             onError={() => {
               console.log('Login error');
