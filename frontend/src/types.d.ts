@@ -39,6 +39,8 @@ export interface TracksByAlbum {
 
 export interface RegisterMutation {
   email: string;
+  displayName: string;
+  avatar?: string;
   password: string;
 }
 
@@ -52,6 +54,9 @@ export interface User {
   email: string;
   token: string;
   role: string;
+  displayName: string;
+  googleID?: string;
+  avatar?: string;
 }
 
 export interface RegisterResponse {

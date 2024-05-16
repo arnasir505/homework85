@@ -2,7 +2,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   GlobalError,
   LoginMutation,
-  RegisterMutation,
   RegisterResponse,
   User,
   ValidationError,
@@ -11,17 +10,26 @@ import axiosApi from '../../axiosApi';
 import { isAxiosError } from 'axios';
 import { RootState } from '../../app/store';
 import { unsetUser } from './usersSlice';
+import { blobUrlToFile } from '../../utils';
 
 export const register = createAsyncThunk<
   User,
-  RegisterMutation,
-  { rejectValue: ValidationError }
->('users/register', async (registerMutation, { rejectWithValue }) => {
+  undefined,
+  { state: RootState; rejectValue: ValidationError }
+>('users/register', async (_, { getState, rejectWithValue }) => {
   try {
-    const response = await axiosApi.post<RegisterResponse>(
-      '/users',
-      registerMutation
-    );
+    const { email, displayName, avatar, password } = getState().register.data;
+    const formData = new FormData();
+
+    formData.append('email', email);
+    formData.append('displayName', displayName);
+    formData.append('password', password);
+
+    if (avatar) {
+      const imageAsFile = await blobUrlToFile(avatar);
+      formData.append('avatar', imageAsFile);
+    }
+    const response = await axiosApi.post<RegisterResponse>('/users', formData);
     return response.data.user;
   } catch (error) {
     if (
@@ -68,7 +76,7 @@ export const loginWithGoogle = createAsyncThunk<
   try {
     const response = await axiosApi.post<RegisterResponse>(
       '/users/sessions/google',
-      {credential}
+      { credential }
     );
     return response.data.user;
   } catch (error) {

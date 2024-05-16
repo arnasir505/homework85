@@ -4,7 +4,14 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectLogoutLoading } from '../../store/users/usersSlice';
 import { logout } from '../../store/users/usersThunk';
-import { Button, CircularProgress, Menu, MenuItem } from '@mui/material';
+import {
+  Avatar,
+  Button,
+  CircularProgress,
+  Menu,
+  MenuItem,
+} from '@mui/material';
+import { apiUrl } from '../../constants';
 
 interface Props {
   user: User;
@@ -30,7 +37,17 @@ const UserMenu: React.FC<Props> = ({ user }) => {
   return (
     <>
       <Button color='inherit' onClick={handleClick}>
-        Hello {user.email}!
+        <Avatar
+          src={
+            user.avatar?.includes('google')
+              ? user.avatar
+              : `${apiUrl}/${user.avatar}`
+          }
+          sx={{ width: 30, height: 30, mr: 1 }}
+        >
+          {user.displayName[0]}
+        </Avatar>
+        {user.displayName}
       </Button>
       <Menu
         anchorEl={anchorEl}

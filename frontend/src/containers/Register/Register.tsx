@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
@@ -6,7 +5,6 @@ import {
   selectRegisterLoading,
 } from '../../store/users/usersSlice';
 import { register } from '../../store/users/usersThunk';
-import { RegisterMutation } from '../../types';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { LoadingButton } from '@mui/lab';
 import {
@@ -18,28 +16,40 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import FileInput from '../../components/FileInput/FileInput';
+import {
+  clearAvatar,
+  clearForm,
+  selectRegisterAvatarFilename,
+  selectRegisterState,
+  updateAvatar,
+  updateDisplayName,
+  updateEmail,
+  updateFilename,
+  updatePassword,
+} from '../../store/register/registerSlice';
 
 const Register = () => {
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectRegisterError);
   const loading = useAppSelector(selectRegisterLoading);
   const navigate = useNavigate();
+  const { email, displayName, password } =
+    useAppSelector(selectRegisterState);
 
-  const [state, setState] = useState<RegisterMutation>({
-    email: '',
-    password: '',
-  });
+  const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
 
-  const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setState((prevState) => {
-      return { ...prevState, [name]: value };
-    });
+    if (files && files[0]) {
+      const blobImageUrl = window.URL.createObjectURL(files[0]);
+      dispatch(updateAvatar(blobImageUrl));
+    }
   };
 
   const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
-    await dispatch(register(state)).unwrap();
+    await dispatch(register()).unwrap();
+    dispatch(clearForm());
     navigate('/');
   };
 
@@ -72,13 +82,39 @@ const Register = () => {
             <Grid item xs={12}>
               <TextField
                 fullWidth
+                type='email'
                 label='Email'
                 name='email'
                 autoComplete='new-email'
-                value={state.email}
-                onChange={inputChangeHandler}
+                value={email}
+                onChange={(e) => dispatch(updateEmail(e.target.value))}
                 error={Boolean(getFieldError('email'))}
                 helperText={getFieldError('email')}
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label='Name'
+                name='displayName'
+                autoComplete='new-name'
+                value={displayName}
+                onChange={(e) => dispatch(updateDisplayName(e.target.value))}
+                error={Boolean(getFieldError('displayName'))}
+                helperText={getFieldError('displayName')}
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FileInput
+                onChange={fileInputChangeHandler}
+                name='image'
+                label='Avatar'
+                selectFilename={selectRegisterAvatarFilename}
+                updateFilename={updateFilename}
+                clearImage={clearAvatar}
+                selectError={selectRegisterError}
               />
             </Grid>
             <Grid item xs={12}>
@@ -88,10 +124,11 @@ const Register = () => {
                 label='Password'
                 type='password'
                 autoComplete='new-password'
-                value={state.password}
-                onChange={inputChangeHandler}
+                value={password}
+                onChange={(e) => dispatch(updatePassword(e.target.value))}
                 error={Boolean(getFieldError('password'))}
                 helperText={getFieldError('password')}
+                required
               />
             </Grid>
           </Grid>

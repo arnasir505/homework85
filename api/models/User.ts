@@ -52,7 +52,7 @@ const UserSchema = new Schema<UserFields, UserModel>(
       required: true,
     },
     googleID: String,
-    avatar: String || null,
+    avatar: String,
   },
   {
     versionKey: false,

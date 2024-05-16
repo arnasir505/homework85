@@ -30,7 +30,7 @@ export interface UserFields {
   role: string;
   displayName?: string;
   googleID?: string;
-  avatar?: string | null;
+  avatar?: string;
 }
 
 export interface TrackHistoryFields {
