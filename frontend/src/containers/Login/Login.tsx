@@ -18,7 +18,9 @@ import {
   TextField,
   Link,
   Alert,
+  Divider,
 } from '@mui/material';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -68,7 +70,11 @@ const Login = () => {
             {error.error}
           </Alert>
         )}
-        <Box component='form' onSubmit={submitFormHandler} sx={{ mt: 3 }}>
+        <Box
+          component='form'
+          onSubmit={submitFormHandler}
+          sx={{ mt: 3, mb: 1 }}
+        >
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -110,6 +116,17 @@ const Login = () => {
               </Link>
             </Grid>
           </Grid>
+        </Box>
+        <Divider sx={{ opacity: 1, width: '100%' }}>or</Divider>
+        <Box sx={{ pt: 2 }}>
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              console.log(credentialResponse);
+            }}
+            onError={() => {
+              console.log('Login error');
+            }}
+          />
         </Box>
       </Box>
     </Container>
