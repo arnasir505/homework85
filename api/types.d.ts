@@ -1,4 +1,4 @@
-import { ObjectId } from "mongoose";
+import { ObjectId } from 'mongoose';
 
 export interface ArtistFields {
   name: string;
@@ -24,10 +24,13 @@ export interface TrackFields {
 }
 
 export interface UserFields {
-  username: string;
+  email: string;
   password: string;
   token: string;
   role: string;
+  displayName?: string;
+  googleID?: string;
+  avatar?: string | null;
 }
 
 export interface TrackHistoryFields {

@@ -29,7 +29,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [state, setState] = useState<LoginMutation>({
-    username: '',
+    email: '',
     password: '',
   });
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,10 +80,10 @@ const Login = () => {
               <TextField
                 required
                 fullWidth
-                label='Username'
-                name='username'
-                autoComplete='new-username'
-                value={state.username}
+                label='Email'
+                name='email'
+                autoComplete='new-email'
+                value={state.email}
                 onChange={inputChangeHandler}
               />
             </Grid>

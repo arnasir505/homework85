@@ -14,19 +14,19 @@ type UserModel = Model<UserFields, {}, UserMethods>;
 
 const UserSchema = new Schema<UserFields, UserModel>(
   {
-    username: {
+    email: {
       type: String,
       required: true,
       unique: true,
       validate: {
         validator: async function (
           this: HydratedDocument<UserFields>,
-          username: string
+          email: string
         ): Promise<boolean> {
-          if (!this.isModified('username')) return true;
+          if (!this.isModified('email')) return true;
 
           const user: HydratedDocument<UserFields> | null = await User.findOne({
-            username,
+            email,
           });
           return !Boolean(user);
         },
@@ -47,6 +47,9 @@ const UserSchema = new Schema<UserFields, UserModel>(
       enum: ['admin', 'user'],
       default: 'user',
     },
+    displayName: String,
+    googleID: String,
+    avatar: String || null
   },
   {
     versionKey: false,
