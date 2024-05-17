@@ -3,7 +3,7 @@ import Track from '../models/Track';
 import mongoose from 'mongoose';
 import { TrackFields } from '../types';
 import Album from '../models/Album';
-import auth, { RequestWithUser } from '../middleware/auth';
+import auth from '../middleware/auth';
 import permit from '../middleware/permit';
 
 const tracksRouter = express.Router();

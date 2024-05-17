@@ -12,7 +12,13 @@ const trackHistoryRouter = express.Router();
 trackHistoryRouter.post('/', auth, async (req: RequestWithUser, res, next) => {
   try {
     const date = new Date();
-    const track = await Track.findOne({ _id: req.body.track });
+    const track = await Track.findOne({
+      _id: req.body.track,
+      isPublished: true,
+    });
+    if (!track) {
+      return res.status(403).send({ error: 'This track is unpublished' });
+    }
     const album = await Album.findOne({ _id: track?.album });
     const artist = await Artist.findOne({ _id: album?.artist });
 

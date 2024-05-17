@@ -1,11 +1,10 @@
 import express from 'express';
 import Artist from '../models/Artist';
-import { imagesUpload } from '../multer';
+import { clearImage, imagesUpload } from '../multer';
 import mongoose, { mongo } from 'mongoose';
 import { ArtistFields } from '../types';
 import auth, { RequestWithUser } from '../middleware/auth';
 import permit from '../middleware/permit';
-import fs from 'fs';
 
 const artistsRouter = express.Router();
 
@@ -27,6 +26,9 @@ artistsRouter.post(
 
       return res.send(artist);
     } catch (error) {
+      if (req.file) {
+        clearImage(req.file.filename);
+      }
       if (error instanceof mongoose.Error.ValidationError) {
         return res.status(422).send(error);
       }
@@ -98,17 +100,9 @@ artistsRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
       return res.status(404).send({ error: 'Not Found' });
     }
 
-    fs.unlink(`../api/public/${artist.image}`, (err) => {
-      if (err) {
-        if (err.code === 'ENOENT') {
-          console.error('File does not exist.');
-        } else {
-          throw err;
-        }
-      } else {
-        console.log('File deleted!');
-      }
-    });
+    if (artist.image) {
+      clearImage(artist.image)
+    }
 
     return res.send({ message: 'Deleted' });
   } catch (error) {

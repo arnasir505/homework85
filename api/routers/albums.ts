@@ -1,12 +1,12 @@
 import express from 'express';
 import Album from '../models/Album';
-import { imagesUpload } from '../multer';
+import { clearImage, imagesUpload } from '../multer';
 import { AlbumFields } from '../types';
 import mongoose from 'mongoose';
 import auth from '../middleware/auth';
 import permit from '../middleware/permit';
+
 const albumsRouter = express.Router();
-import fs from 'fs';
 
 albumsRouter.post(
   '/',
@@ -27,6 +27,9 @@ albumsRouter.post(
 
       return res.send(album);
     } catch (error) {
+      if (req.file) {
+        clearImage(req.file.filename);
+      }
       if (error instanceof mongoose.Error.ValidationError) {
         return res.status(422).send(error);
       }
@@ -52,9 +55,8 @@ albumsRouter.get('/', async (req, res, next) => {
       return res.send(albums);
     }
 
-    const albums = await Album.find({isPublished: true});
+    const albums = await Album.find({ isPublished: true });
     return res.send(albums);
-
   } catch (error) {
     next(error);
   }
@@ -111,17 +113,9 @@ albumsRouter.delete('/:id', auth, permit('admin'), async (req, res, next) => {
       return res.status(404).send({ error: 'Not Found' });
     }
 
-    fs.unlink(`../api/public/${album.image}`, (err) => {
-      if (err) {
-        if (err.code === 'ENOENT') {
-          console.error('File does not exist.');
-        } else {
-          throw err;
-        }
-      } else {
-        console.log('File deleted!');
-      }
-    });
+    if (album.image) {
+      clearImage(album.image);
+    }
 
     return res.send({ message: 'Deleted' });
   } catch (error) {

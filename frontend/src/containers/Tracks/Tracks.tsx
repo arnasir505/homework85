@@ -40,7 +40,7 @@ const Tracks: React.FC = () => {
         navigate('/login');
       }
     } catch (error) {
-      console.log(error);
+      throw error
     }
   };
 

@@ -3,7 +3,7 @@ import User from '../models/User';
 import mongoose, { mongo } from 'mongoose';
 import { OAuth2Client } from 'google-auth-library';
 import config from '../config';
-import { imagesUpload } from '../multer';
+import { clearImage, imagesUpload } from '../multer';
 
 const usersRouter = express.Router();
 const client = new OAuth2Client(config.google.clientID);
@@ -22,6 +22,9 @@ usersRouter.post('/', imagesUpload.single('avatar'), async (req, res, next) => {
     await user.save();
     return res.send({ message: 'Successful sign up!', user });
   } catch (error) {
+    if (req.file) {
+      clearImage(req.file.filename);
+    }
     if (error instanceof mongoose.Error.ValidationError) {
       return res.status(422).send(error);
     }
