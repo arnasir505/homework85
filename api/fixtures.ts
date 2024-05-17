@@ -37,21 +37,21 @@ const run = async () => {
       name: 'The Weeknd',
       information:
         'Canadian singer and songwriter. He is known for his unconventional music production, artistic reinventions, and signature use of the falsetto register. In 2009, Tesfaye expressed his interest in music when he began anonymously releasing music on YouTube',
-      image: 'images/theWeeknd.jpg',
+      image: 'fixtures/theWeeknd.jpg',
       isPublished: true,
     },
     {
       name: 'Arctic Monkeys',
       information:
         'Arctic Monkeys are an English rock band formed in Sheffield on 14 August 2002.',
-      image: 'images/arcticMonkeys.jpg',
+      image: 'fixtures/arcticMonkeys.jpg',
       isPublished: true,
     },
     {
       name: 'Chase Atlantic',
       information:
         'Australian R&B band and production trio from Cairns, Queensland, formed in 2014.',
-      image: 'images/chaseAtlantic.jpg',
+      image: 'fixtures/chaseAtlantic.jpg',
       isPublished: false,
     }
   );
@@ -62,35 +62,35 @@ const run = async () => {
         title: 'The Highlights',
         artist: theWeeknd._id,
         year: 2021,
-        image: 'images/theHighlights.jpg',
+        image: 'fixtures/theHighlights.jpg',
         isPublished: true,
       },
       {
         title: 'After Hours',
         artist: theWeeknd._id,
         year: 2020,
-        image: 'images/afterHours.jpg',
+        image: 'fixtures/afterHours.jpg',
         isPublished: true,
       },
       {
         title: 'AM',
         artist: arcticMonkeys._id,
         year: 2013,
-        image: 'images/am.jpg',
+        image: 'fixtures/am.jpg',
         isPublished: true,
       },
       {
         title: 'Favourite Worst Nightmare',
         artist: arcticMonkeys._id,
         year: 2007,
-        image: 'images/favouriteWorstNightmare.jpg',
+        image: 'fixtures/favouriteWorstNightmare.jpg',
         isPublished: true,
       },
       {
         title: 'Nostalgia',
         artist: chaseAtlantic._id,
         year: 2015,
-        image: 'images/nostalgia.jpg',
+        image: 'fixtures/nostalgia.jpg',
         isPublished: false,
       }
     );
